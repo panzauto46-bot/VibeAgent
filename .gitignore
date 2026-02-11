@@ -1,0 +1,48 @@
+# ========================
+# Android / Gradle
+# ========================
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+VibeAgent-Android/.idea/
+VibeAgent-Android/.gradle/
+VibeAgent-Android/local.properties
+VibeAgent-Android/build/
+VibeAgent-Android/app/build/
+VibeAgent-Android/app/release/
+VibeAgent-Android/captures/
+VibeAgent-Android/AUTO/
+VibeAgent-Android/Agent/
+VibeAgent-Android/build_log*.txt
+VibeAgent-Android/build_output.txt
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# ========================
+# Node / Web Frontend
+# ========================
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+
+# ========================
+# OS / IDE
+# ========================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+
+# ========================
+# Logs
+# ========================
+*.log
+npm-debug.log*

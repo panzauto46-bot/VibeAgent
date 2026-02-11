@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1040862331461",
+    "project_id": "vibeagent-858f2",
+    "storage_bucket": "vibeagent-858f2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040862331461:android:a517279cc600621d5cd92c",
+        "android_client_info": {
+          "package_name": "com.vibeagent.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1040862331461-0u2pgf2ah32kqf21gt9bsoa91ikrq688.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vibeagent.app",
+            "certificate_hash": "5ba65f3ae9a8b7a8e4373fa95acdc49a7ead272b"
+          }
+        },
+        {
+          "client_id": "1040862331461-2l4757u9etvq451unq6md6g428iscnh4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9A2XXHyC4j0f-7hGI5ZoGjr7-22RgDyY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1040862331461-2l4757u9etvq451unq6md6g428iscnh4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

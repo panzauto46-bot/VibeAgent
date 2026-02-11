@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VibeAgent</string>
+    <string name="app_subtitle">AI Financial Assistant</string>
+    
+    <!-- Chat -->
+    <string name="hint_message">Ketik perintah... contoh: "buat wallet baru"</string>
+    <string name="send">Kirim</string>
+    <string name="online">Online • BSC Testnet</string>
+    
+    <!-- Wallet -->
+    <string name="wallet">Wallet</string>
+    <string name="bsc_testnet">BSC Testnet</string>
+    <string name="balance">SALDO</string>
+    <string name="address">Address</string>
+    <string name="private_key">Private Key</string>
+    <string name="network">Network</string>
+    <string name="chain">Chain</string>
+    <string name="chain_id">Chain ID</string>
+    <string name="currency">Currency</string>
+    <string name="no_wallet">Belum ada wallet yang terhubung</string>
+    
+    <!-- Quick Actions -->
+    <string name="create_wallet">Buat Wallet</string>
+    <string name="check_balance">Cek Saldo</string>
+    <string name="send_bnb">Kirim BNB</string>
+    <string name="help">Bantuan</string>
+    
+    <!-- Faucet -->
+    <string name="faucet_title">🚰 BNB Testnet Faucet</string>
+    <string name="faucet_subtitle">Dapatkan BNB gratis untuk testing</string>
+    
+    <!-- Footer -->
+    <string name="footer_text">VibeAgent v1.0 • BSC Testnet Only</string>
+    
+    <!-- Auth Config -->
+    <string name="default_web_client_id">1040862331461-2l4757u9etvq451unq6md6g428iscnh4.apps.googleusercontent.com</string>
+</resources>
