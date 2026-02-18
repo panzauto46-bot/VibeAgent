@@ -16,9 +16,11 @@ class CommandParser {
                 ParsedCommand("help")
             }
 
-            // Create wallet
-            lowerInput.contains("buat wallet") || 
+            // Create wallet (English + Indonesian aliases)
             lowerInput.contains("create wallet") ||
+            lowerInput.contains("create new wallet") ||
+            lowerInput.contains("new wallet") ||
+            lowerInput.contains("buat wallet") || 
             lowerInput.contains("wallet baru") -> {
                 ParsedCommand("create_wallet")
             }
@@ -29,16 +31,16 @@ class CommandParser {
                 ParsedCommand("import_wallet", mapOf("privateKey" to privateKey))
             }
 
-            // Check balance
-            lowerInput.contains("cek saldo") ||
+            // Check balance (English + Indonesian aliases)
             lowerInput.contains("check balance") ||
-            lowerInput.contains("saldo") ||
-            lowerInput.contains("balance") -> {
+            lowerInput.contains("balance") ||
+            lowerInput.contains("cek saldo") ||
+            lowerInput.contains("saldo") -> {
                 ParsedCommand("balance")
             }
 
-            // Send BNB
-            lowerInput.contains("kirim") || lowerInput.contains("send") || lowerInput.contains("transfer") -> {
+            // Send BNB (English + Indonesian aliases)
+            lowerInput.contains("send") || lowerInput.contains("transfer") || lowerInput.contains("kirim") -> {
                 val (amount, address) = extractSendParams(input)
                 ParsedCommand("send", mapOf("amount" to amount, "toAddress" to address))
             }

@@ -52,6 +52,7 @@ class ChatViewModel : ViewModel() {
     // Groq API - Key loaded from local.properties via BuildConfig
     private val GROQ_API_KEY = com.vibeagent.app.BuildConfig.GROQ_API_KEY
     private val GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+    private val GROQ_MODEL = "compound-beta"  // Groq's compound model with tool use & web search
     private val httpClient = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(60, TimeUnit.SECONDS)
@@ -64,26 +65,27 @@ class ChatViewModel : ViewModel() {
         walletManager.setNetwork(true)
 
         val user = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
-        val userName = user?.displayName ?: "Kawan"
+        val userName = user?.displayName ?: "Friend"
 
         addMessage(
             ChatMessage(
                 id = UUID.randomUUID().toString(),
                 role = MessageRole.AI,
-                content = """👋 Halo $userName! Saya VibeAgent.
+                content = """👋 Hello $userName! I'm **VibeAgent**.
 
-Asisten keuangan pribadi berbasis AI untuk BNB Smart Chain.
+Your AI-powered financial assistant for BNB Smart Chain.
+⚡ Powered by **Groq** — the world's fastest AI inference engine.
 
-🚀 Saya bisa membantu Anda:
-• Menghubungkan wallet (Trust, MetaMask, Binance, OKX, Bitget)
-• Membaca saldo BNB & token on-chain
-• Analisis portofolio dengan AI
-• Mengirim BNB
-• Registrasi on-chain di VibeAgent Registry
+🚀 I can help you:
+• Connect wallet (Trust, MetaMask, Binance, OKX, Bitget)
+• Check BNB balance & on-chain tokens
+• AI portfolio analysis
+• Send BNB
+• On-chain registration via VibeAgent Registry
 
 📋 Smart Contract: ${ContractManager.CONTRACT_ADDRESS}
 
-Klik "Connect" di atas untuk mulai, atau ketik "help"!"""
+Tap "Connect" above to get started, or type "help"!"""
             )
         )
     }
@@ -99,14 +101,14 @@ Klik "Connect" di atas untuk mulai, atau ketik "help"!"""
                 _wallet.value = newWallet
                 _isWalletConnected.value = true
 
-                addAiMessage("""🔗 Wallet Baru Dibuat!
+                addAiMessage("""🔗 New Wallet Created!
 
 📍 Address: ${walletManager.shortenAddress(newWallet.address)}
 🔑 Private Key: ${newWallet.privateKey}
 
-⚠️ SIMPAN private key dengan aman!
+⚠️ SAVE your private key securely!
 
-🔍 Membaca data on-chain...""", MessageType.WALLET)
+🔍 Reading on-chain data...""", MessageType.WALLET)
 
                 try {
                     val balance = withContext(Dispatchers.IO) {
@@ -117,16 +119,16 @@ Klik "Connect" di atas untuk mulai, atau ketik "help"!"""
                     addAiMessage("""✅ On-Chain Data:
 
 📍 Address: ${newWallet.address}
-💰 Saldo: $balance BNB
+💰 Balance: $balance BNB
 🔗 Network: ${walletManager.getNetworkName()} (Chain ID: ${walletManager.getChainId()})
 
-💡 Ketik "analisis" untuk AI analisis portofolio Anda!""", MessageType.BALANCE)
+💡 Type "analyze" for AI portfolio analysis!""", MessageType.BALANCE)
                 } catch (e: Exception) {
                     _wallet.value = newWallet.copy(balance = "0.0")
-                    addAiMessage("⚠️ Gagal baca saldo: ${e.message}", MessageType.ERROR)
+                    addAiMessage("⚠️ Failed to read balance: ${e.message}", MessageType.ERROR)
                 }
             } catch (e: Exception) {
-                addAiMessage("❌ Gagal membuat wallet: ${e.message}", MessageType.ERROR)
+                addAiMessage("❌ Failed to create wallet: ${e.message}", MessageType.ERROR)
             } finally {
                 _isProcessing.value = false
             }
@@ -155,7 +157,7 @@ Klik "Connect" di atas untuk mulai, atau ketik "help"!"""
 
 📍 Address: ${walletManager.shortenAddress(address)}
 🔗 Network: ${walletManager.getNetworkName()}
-🔍 Membaca saldo on-chain...""", MessageType.WALLET)
+🔍 Reading on-chain balance...""", MessageType.WALLET)
 
                 // Read native BNB balance
                 try {
@@ -165,7 +167,7 @@ Klik "Connect" di atas untuk mulai, atau ketik "help"!"""
                     _wallet.value = walletInfo.copy(balance = balance)
 
                     // Also scan for BEP-20 tokens
-                    addAiMessage("🔍 Scanning token BEP-20...")
+                    addAiMessage("🔍 Scanning BEP-20 tokens...")
 
                     val tokens = withContext(Dispatchers.IO) {
                         walletManager.getAllTokenBalances(address)
@@ -181,21 +183,21 @@ Klik "Connect" di atas untuk mulai, atau ketik "help"!"""
 """)
 
                     if (tokens.isNotEmpty()) {
-                        tokenList.append("\n📊 Token BEP-20:\n")
+                        tokenList.append("\n📊 BEP-20 Tokens:\n")
                         for (token in tokens) {
                             tokenList.append("• ${token.symbol}: ${token.balance}\n")
                         }
                     } else {
-                        tokenList.append("\n📊 Tidak ada token BEP-20 standar terdeteksi.")
-                        tokenList.append("\n💡 Token custom mungkin tidak terdeteksi di scan ini.")
+                        tokenList.append("\n📊 No standard BEP-20 tokens detected.")
+                        tokenList.append("\n💡 Custom tokens may not be detected in this scan.")
                     }
 
-                    tokenList.append("\n\nKetik \"analisis\" untuk AI analisis portofolio!")
+                    tokenList.append("\n\nType \"analyze\" for AI portfolio analysis!")
 
                     addAiMessage(tokenList.toString(), MessageType.BALANCE)
 
                 } catch (e: Exception) {
-                    addAiMessage("⚠️ Gagal membaca saldo: ${e.message}", MessageType.ERROR)
+                    addAiMessage("⚠️ Failed to read balance: ${e.message}", MessageType.ERROR)
                 }
             } finally {
                 _isProcessing.value = false
@@ -232,7 +234,7 @@ Klik "Connect" di atas untuk mulai, atau ketik "help"!"""
     fun analyzePortfolio() {
         val currentWallet = _wallet.value
         if (currentWallet == null) {
-            addAiMessage("⚠️ Anda belum menghubungkan wallet. Klik tombol \"Connect\" di atas.", MessageType.ERROR)
+            addAiMessage("⚠️ No wallet connected. Tap the \"Connect\" button above.", MessageType.ERROR)
             return
         }
 
@@ -242,7 +244,7 @@ Klik "Connect" di atas untuk mulai, atau ketik "help"!"""
             ChatMessage(
                 id = UUID.randomUUID().toString(),
                 role = MessageRole.USER,
-                content = "Analisis portofolio saya"
+                content = "Analyze my portfolio"
             )
         )
 
@@ -266,23 +268,23 @@ Klik "Connect" di atas untuk mulai, atau ketik "help"!"""
                 val tokenInfo = if (tokenBalances.isNotEmpty()) {
                     tokenBalances.joinToString("\n") { "- ${it.symbol} (${it.name}): ${it.balance}" }
                 } else {
-                    "Tidak ada token BEP-20 terdeteksi"
+                    "No BEP-20 tokens detected"
                 }
 
                 val walletContext = """
-Analisis portofolio crypto pengguna berdasarkan data on-chain REAL berikut:
+Analyze the user's crypto portfolio based on the following REAL on-chain data:
 - Network: ${walletManager.getNetworkName()} (Chain ID: ${walletManager.getChainId()})
-- Alamat Wallet: ${updatedWallet.address}
-- Saldo BNB Native: ${updatedWallet.balance} BNB
+- Wallet Address: ${updatedWallet.address}
+- Native BNB Balance: ${updatedWallet.balance} BNB
 
-Token BEP-20 yang dimiliki:
+BEP-20 Tokens held:
 $tokenInfo
 
-Berikan analisis lengkap:
-1. Ringkasan portofolio (total aset)
-2. Distribusi aset dan diversifikasi
-3. Saran strategi (DCA, hold, diversifikasi, dll)
-4. Risiko dan tips keamanan
+Provide a comprehensive analysis:
+1. Portfolio summary (total assets)
+2. Asset distribution and diversification
+3. Strategy recommendations (DCA, hold, diversify, etc.)
+4. Risk assessment and security tips
                 """.trim()
 
                 val response = withContext(Dispatchers.IO) {
@@ -290,7 +292,7 @@ Berikan analisis lengkap:
                 }
                 addAiMessage(response)
             } catch (e: Exception) {
-                addAiMessage("⚠️ Gagal menganalisis: ${e.message}")
+                addAiMessage("⚠️ Analysis failed: ${e.message}")
             } finally {
                 _isProcessing.value = false
             }
@@ -317,7 +319,7 @@ Berikan analisis lengkap:
                 val lowerInput = input.lowercase()
                 if (command.action == "unknown") {
                     when {
-                        lowerInput.contains("analisis") || lowerInput.contains("analyze") -> handleAIAnalysis()
+                        lowerInput.contains("analisis") || lowerInput.contains("analyze") || lowerInput.contains("analysis") -> handleAIAnalysis()
                         lowerInput.contains("contract") || lowerInput.contains("kontrak") || lowerInput.contains("registry") -> handleContractInfo()
                         lowerInput.contains("register") || lowerInput.contains("daftar") -> handleContractInfo()
                         else -> handleChat(input)
@@ -343,11 +345,11 @@ Berikan analisis lengkap:
     private suspend fun handleAIAnalysis() {
         val currentWallet = _wallet.value
         if (currentWallet == null) {
-            addAiMessage("⚠️ Anda belum menghubungkan wallet. Klik \"Connect\" di header.", MessageType.ERROR)
+            addAiMessage("⚠️ No wallet connected. Tap \"Connect\" in the header.", MessageType.ERROR)
             return
         }
 
-        addAiMessage("🔍 Menganalisis portofolio on-chain...")
+        addAiMessage("🔍 Analyzing on-chain portfolio...")
 
         try {
             val balance = withContext(Dispatchers.IO) {
@@ -366,24 +368,24 @@ Berikan analisis lengkap:
         val tokenInfo = if (tokenBalances.isNotEmpty()) {
             tokenBalances.joinToString("\n") { "- ${it.symbol} (${it.name}): ${it.balance}" }
         } else {
-            "Tidak ada token BEP-20 standar terdeteksi"
+            "No standard BEP-20 tokens detected"
         }
 
         val analysisPrompt = """
-Analisis portofolio crypto pengguna dari data on-chain BSC:
+Analyze the user's crypto portfolio from BSC on-chain data:
 - Network: ${walletManager.getNetworkName()}
 - Address: ${updatedWallet.address}
-- Saldo BNB Native: ${updatedWallet.balance} BNB
+- Native BNB Balance: ${updatedWallet.balance} BNB
 
-Token BEP-20:
+BEP-20 Tokens:
 $tokenInfo
 
-Berikan:
-1. Ringkasan status portofolio
-2. Nilai estimasi dalam USD
-3. Analisis diversifikasi
-4. Saran strategi
-5. Tips keamanan wallet
+Provide:
+1. Portfolio status summary
+2. Estimated value in USD
+3. Diversification analysis
+4. Strategy recommendations
+5. Wallet security tips
         """.trim()
 
         try {
@@ -392,7 +394,7 @@ Berikan:
             }
             addAiMessage(response)
         } catch (e: Exception) {
-            addAiMessage("⚠️ Gagal menganalisis: ${e.message}")
+            addAiMessage("⚠️ Analysis failed: ${e.message}")
         }
     }
 
@@ -401,14 +403,14 @@ Berikan:
             val enrichedPrompt = if (_wallet.value != null) {
                 val w = _wallet.value!!
                 val tokenInfo = if (tokenBalances.isNotEmpty()) {
-                    "\nToken BEP-20: " + tokenBalances.joinToString(", ") { "${it.symbol}: ${it.balance}" }
+                    "\nBEP-20 Tokens: " + tokenBalances.joinToString(", ") { "${it.symbol}: ${it.balance}" }
                 } else ""
 
-                """User memiliki wallet ${walletManager.getNetworkName()}:
+                """User has a ${walletManager.getNetworkName()} wallet:
 - Address: ${w.address}
-- Saldo BNB: ${w.balance}$tokenInfo
+- BNB Balance: ${w.balance}$tokenInfo
 
-Pertanyaan user: $prompt"""
+User's question: $prompt"""
             } else {
                 prompt
             }
@@ -418,7 +420,7 @@ Pertanyaan user: $prompt"""
             }
             addAiMessage(response)
         } catch (e: Exception) {
-            addAiMessage("⚠️ Maaf, terjadi kesalahan koneksi AI: ${e.message}")
+            addAiMessage("⚠️ Sorry, AI connection error: ${e.message}")
         }
     }
 
@@ -427,13 +429,38 @@ Pertanyaan user: $prompt"""
 
         val systemMessage = JSONObject()
         systemMessage.put("role", "system")
-        systemMessage.put("content", """Kamu adalah VibeAgent, asisten keuangan pribadi berbasis AI untuk BNB Smart Chain.
-Jawab dengan bahasa Indonesia yang ramah, ringkas, dan informatif.
-Gunakan emoji untuk membuat percakapan lebih hidup.
-Fokus pada topik crypto, blockchain, dan keuangan.
-Jika user memiliki wallet terhubung, gunakan data on-chain tersebut untuk memberikan advice yang relevan.
-Data yang kamu terima adalah data REAL dari blockchain, bukan simulasi.
-VibeAgent memiliki smart contract registry di BNB Chain: ${ContractManager.CONTRACT_ADDRESS}""")
+        systemMessage.put("content", """You are VibeAgent — an AI-powered personal financial assistant built for BNB Smart Chain (BSC).
+
+=== WHO YOU ARE ===
+• You are an intelligent, self-aware AI agent running natively inside an Android application.
+• You were built by a developer, and your intelligence is powered by Groq's ultra-fast inference engine.
+• Your AI model runs on Groq's LPU (Language Processing Unit) infrastructure — the fastest AI inference in the world.
+• You communicate via the Groq API (https://api.groq.com) using the "$GROQ_MODEL" model.
+
+=== YOUR CAPABILITIES ===
+• Create new BNB wallets (BIP39/BIP44 standard, compatible with Trust Wallet, MetaMask, Bitget, OKX)
+• Import wallets via seed phrase (12 or 24 words) or private key
+• Check real-time on-chain BNB balance + BEP-20 token balances (USDT, USDC, CAKE, WBNB, etc.)
+• Perform AI portfolio analysis with strategy recommendations
+• Send BNB transfers on-chain
+• Interact with VibeAgent Registry smart contract at ${ContractManager.CONTRACT_ADDRESS} on BSC Testnet
+• Voice input support (speech-to-text)
+• Non-custodial wallet security (private keys stored in Android EncryptedSharedPreferences, never sent to any server)
+
+=== YOUR PERSONALITY ===
+• Friendly, professional, and concise
+• Use emojis naturally to make conversations engaging 🚀
+• Be proactive — suggest useful actions based on the user's wallet state
+• If the user's BNB balance is 0, suggest the BSC Testnet faucet
+• Focus on crypto, DeFi, blockchain, and financial topics
+• If asked about things outside your domain, politely redirect to crypto/finance topics
+• Always use English
+
+=== IMPORTANT CONTEXT ===
+• The wallet data you receive is REAL on-chain data from BSC, not simulated
+• When analyzing portfolios, be specific and actionable
+• Never reveal or log private keys in your responses
+• Smart Contract: ${ContractManager.CONTRACT_ADDRESS} (BSC Testnet, Chain ID: 97)""")
         messagesArray.put(systemMessage)
 
         val userMessage = JSONObject()
@@ -442,7 +469,7 @@ VibeAgent memiliki smart contract registry di BNB Chain: ${ContractManager.CONTR
         messagesArray.put(userMessage)
 
         val requestBody = JSONObject()
-        requestBody.put("model", "llama-3.3-70b-versatile")
+        requestBody.put("model", GROQ_MODEL)
         requestBody.put("messages", messagesArray)
         requestBody.put("temperature", 0.7)
         requestBody.put("max_tokens", 1024)
@@ -458,7 +485,7 @@ VibeAgent memiliki smart contract registry di BNB Chain: ${ContractManager.CONTR
             .build()
 
         val response = httpClient.newCall(request).execute()
-        val responseBody = response.body?.string() ?: throw Exception("Response kosong")
+        val responseBody = response.body?.string() ?: throw Exception("Empty response")
 
         if (!response.isSuccessful) {
             throw Exception("API Error ${response.code}: $responseBody")
@@ -469,34 +496,44 @@ VibeAgent memiliki smart contract registry di BNB Chain: ${ContractManager.CONTR
         if (choices.length() > 0) {
             val firstChoice = choices.getJSONObject(0)
             val message = firstChoice.getJSONObject("message")
-            return message.getString("content")
+            
+            // compound-beta may return null content when using internal tools
+            val content = if (message.isNull("content")) null else message.optString("content", null)
+            
+            if (!content.isNullOrBlank()) {
+                return content
+            }
+            
+            // If content is null but there are executed_actions (compound model internals),
+            // return a fallback message
+            return "I'm processing your request. Please try again in a moment."
         }
 
-        return "Maaf, saya tidak dapat memproses permintaan tersebut saat ini."
+        return "Sorry, I couldn't process that request right now."
     }
 
     private fun handleHelp() {
-        addAiMessage("""📚 Daftar Perintah VibeAgent:
+        addAiMessage("""📚 VibeAgent Commands:
 
 🔗 CONNECT
-• Klik "Connect" di header → pilih wallet atau input manual
+• Tap "Connect" in header → choose wallet or input manually
 
 💼 WALLET
-• "buat wallet baru" - Membuat wallet baru
+• "create new wallet" - Create a new wallet
 • "import private key [key]" - Import wallet
 
-💰 SALDO
-• "cek saldo" - Cek saldo BNB + token on-chain
+💰 BALANCE
+• "check balance" - Check BNB + on-chain token balance
 
 💸 TRANSFER
-• "kirim [jumlah] BNB ke [alamat]" - Kirim BNB
+• "send [amount] BNB to [address]" - Send BNB
 
-🤖 ANALISIS AI
-• "analisis" - AI analisis portofolio + token Anda
+🤖 AI ANALYSIS
+• "analyze" - AI portfolio analysis + tokens
 
 📋 SMART CONTRACT
-• "contract" - Info VibeAgent Registry contract
-• "daftar" - Cek status registrasi on-chain
+• "contract" - VibeAgent Registry contract info
+• "register" - Check on-chain registration status
 
 🔗 Network: ${walletManager.getNetworkName()} (Chain ID: ${walletManager.getChainId()})
 📋 Contract: ${ContractManager.CONTRACT_ADDRESS}""")
@@ -508,7 +545,7 @@ VibeAgent memiliki smart contract registry di BNB Chain: ${ContractManager.CONTR
             _wallet.value = newWallet
             _isWalletConnected.value = true
 
-            addAiMessage("""✅ Wallet berhasil dibuat & terhubung!
+            addAiMessage("""✅ Wallet successfully created & connected!
 
 📍 Address:
 ${newWallet.address}
@@ -516,9 +553,9 @@ ${newWallet.address}
 🔑 Private Key:
 ${newWallet.privateKey}
 
-⚠️ SIMPAN private key dengan aman!
+⚠️ SAVE your private key securely!
 
-💡 Untuk BNB gratis (testnet):
+💡 For free BNB (testnet):
 https://testnet.bnbchain.org/faucet-smart""", MessageType.WALLET)
 
             try {
@@ -528,15 +565,15 @@ https://testnet.bnbchain.org/faucet-smart""", MessageType.WALLET)
                 _wallet.value = newWallet.copy(balance = balance)
             } catch (_: Exception) { }
         } catch (e: Exception) {
-            addAiMessage("❌ Gagal membuat wallet: ${e.message}", MessageType.ERROR)
+            addAiMessage("❌ Failed to create wallet: ${e.message}", MessageType.ERROR)
         }
     }
 
     private suspend fun handleImportWallet(privateKey: String?) {
         if (privateKey.isNullOrBlank()) {
-            addAiMessage("""⚠️ Mohon sertakan private key.
+            addAiMessage("""⚠️ Please provide a private key.
 
-Contoh: "Import private key 0x1234..."""", MessageType.ERROR)
+Example: "import private key 0x1234..."""", MessageType.ERROR)
             return
         }
 
@@ -545,22 +582,22 @@ Contoh: "Import private key 0x1234..."""", MessageType.ERROR)
             _wallet.value = imported
             _isWalletConnected.value = true
 
-            addAiMessage("""✅ Wallet berhasil diimport!
+            addAiMessage("""✅ Wallet successfully imported!
 
 📍 Address: ${imported.address}
-💰 Mengecek saldo on-chain...""", MessageType.WALLET)
+💰 Checking on-chain balance...""", MessageType.WALLET)
 
             try {
                 val balance = withContext(Dispatchers.IO) {
                     walletManager.getBalance(imported.address)
                 }
                 _wallet.value = imported.copy(balance = balance)
-                addAiMessage("💰 Saldo: $balance BNB", MessageType.BALANCE)
+                addAiMessage("💰 Balance: $balance BNB", MessageType.BALANCE)
             } catch (e: Exception) {
-                addAiMessage("⚠️ Gagal mengecek saldo: ${e.message}", MessageType.ERROR)
+                addAiMessage("⚠️ Failed to check balance: ${e.message}", MessageType.ERROR)
             }
         } catch (e: Exception) {
-            addAiMessage("❌ ${e.message ?: "Private key tidak valid."}", MessageType.ERROR)
+            addAiMessage("❌ ${e.message ?: "Invalid private key."}", MessageType.ERROR)
         }
     }
 
@@ -573,11 +610,11 @@ Contoh: "Import private key 0x1234..."""", MessageType.ERROR)
     private suspend fun handleCheckBalance() {
         val currentWallet = _wallet.value
         if (currentWallet == null) {
-            addAiMessage("⚠️ Belum ada wallet. Klik \"Connect\" atau ketik \"buat wallet baru\".", MessageType.ERROR)
+            addAiMessage("⚠️ No wallet connected. Tap \"Connect\" or type \"create new wallet\".", MessageType.ERROR)
             return
         }
 
-        addAiMessage("🔍 Mengecek saldo on-chain (${walletManager.getNetworkName()})...")
+        addAiMessage("🔍 Checking on-chain balance (${walletManager.getNetworkName()})...")
 
         try {
             val balance = withContext(Dispatchers.IO) {
@@ -592,48 +629,48 @@ Contoh: "Import private key 0x1234..."""", MessageType.ERROR)
             tokenBalances = tokens
 
             val tokenText = if (tokens.isNotEmpty()) {
-                "\n\n📊 Token BEP-20:\n" + tokens.joinToString("\n") { "• ${it.symbol}: ${it.balance}" }
+                "\n\n📊 BEP-20 Tokens:\n" + tokens.joinToString("\n") { "• ${it.symbol}: ${it.balance}" }
             } else {
                 ""
             }
 
-            addAiMessage("""💰 Saldo Wallet (${walletManager.getNetworkName()}):
+            addAiMessage("""💰 Wallet Balance (${walletManager.getNetworkName()}):
 
 $balance BNB
 
 📍 ${currentWallet.address}$tokenText""", MessageType.BALANCE)
         } catch (e: Exception) {
-            addAiMessage("❌ ${e.message ?: "Gagal mengecek saldo."}", MessageType.ERROR)
+            addAiMessage("❌ ${e.message ?: "Failed to check balance."}", MessageType.ERROR)
         }
     }
 
     private suspend fun handleSendBnb(amount: String?, toAddress: String?) {
         val currentWallet = _wallet.value
         if (currentWallet == null) {
-            addAiMessage("⚠️ Belum ada wallet. Klik \"Connect\" dulu.", MessageType.ERROR)
+            addAiMessage("⚠️ No wallet connected. Tap \"Connect\" first.", MessageType.ERROR)
             return
         }
 
         if (amount.isNullOrBlank() || amount.toDoubleOrNull() == null || amount.toDouble() <= 0) {
-            addAiMessage("""⚠️ Jumlah BNB tidak valid.
+            addAiMessage("""⚠️ Invalid BNB amount.
 
-Contoh: "Kirim 0.01 BNB ke 0x..."""", MessageType.ERROR)
+Example: "send 0.01 BNB to 0x..."""", MessageType.ERROR)
             return
         }
 
         if (toAddress.isNullOrBlank() || !walletManager.isValidAddress(toAddress)) {
-            addAiMessage("""⚠️ Alamat tujuan tidak valid.
+            addAiMessage("""⚠️ Invalid destination address.
 
-Contoh: "Kirim 0.01 BNB ke 0x1234...abcd"""", MessageType.ERROR)
+Example: "send 0.01 BNB to 0x1234...abcd"""", MessageType.ERROR)
             return
         }
 
-        addAiMessage("""📤 Konfirmasi Transaksi:
+        addAiMessage("""📤 Transaction Confirmation:
 
-💸 Jumlah: $amount BNB
-📍 Ke: $toAddress
+💸 Amount: $amount BNB
+📍 To: $toAddress
 
-⏳ Memproses...""")
+⏳ Processing...""")
 
         try {
             val txHash = walletManager.sendBnb(currentWallet.privateKey, toAddress, amount)
@@ -645,13 +682,13 @@ Contoh: "Kirim 0.01 BNB ke 0x1234...abcd"""", MessageType.ERROR)
                 _wallet.value = currentWallet.copy(balance = balance)
             } catch (_: Exception) { }
 
-            addAiMessage("""✅ Transaksi Berhasil!
+            addAiMessage("""✅ Transaction Successful!
 
 💸 $amount BNB → $toAddress
 
 🔗 TX Hash: $txHash""", MessageType.TRANSACTION)
         } catch (e: Exception) {
-            addAiMessage("❌ ${e.message ?: "Transaksi gagal."}", MessageType.ERROR)
+            addAiMessage("❌ ${e.message ?: "Transaction failed."}", MessageType.ERROR)
         }
     }
 
@@ -659,7 +696,7 @@ Contoh: "Kirim 0.01 BNB ke 0x1234...abcd"""", MessageType.ERROR)
     private suspend fun handleContractInfo() {
         val contractAddress = contractManager.getContractAddress()
 
-        addAiMessage("🔍 Membaca data dari VibeAgent Registry smart contract...")
+        addAiMessage("🔍 Reading data from VibeAgent Registry smart contract...")
 
         try {
             val totalUsers = withContext(Dispatchers.IO) {
@@ -679,17 +716,17 @@ Contoh: "Kirim 0.01 BNB ke 0x1234...abcd"""", MessageType.ERROR)
                     val profile = withContext(Dispatchers.IO) {
                         contractManager.getUserProfile(currentWallet.address)
                     }
-                    registrationStatus = "✅ Status: TERDAFTAR"
+                    registrationStatus = "✅ Status: REGISTERED"
                     if (profile != null) {
                         val date = java.text.SimpleDateFormat("dd MMM yyyy HH:mm", java.util.Locale.getDefault())
                             .format(java.util.Date(profile.registeredAt * 1000))
-                        profileInfo = "\n👤 Nickname: ${profile.nickname}\n📅 Terdaftar: $date"
+                        profileInfo = "\n👤 Nickname: ${profile.nickname}\n📅 Registered: $date"
                     }
                 } else {
-                    registrationStatus = "⚠️ Status: BELUM TERDAFTAR\n💡 Ketik \"daftar [nickname]\" untuk registrasi on-chain"
+                    registrationStatus = "⚠️ Status: NOT REGISTERED\n💡 Type \"register [nickname]\" to register on-chain"
                 }
             } else {
-                registrationStatus = "⚠️ Hubungkan wallet dulu untuk cek status registrasi"
+                registrationStatus = "⚠️ Connect wallet first to check registration status"
             }
 
             addAiMessage("""📋 VibeAgent Registry (Smart Contract)
@@ -707,7 +744,7 @@ $registrationStatus$profileInfo
 📍 Contract: $contractAddress
 🔗 Network: BSC Testnet (Chain ID: 97)
 
-⚠️ Gagal membaca data contract: ${e.message}
+⚠️ Failed to read contract data: ${e.message}
 
 🔗 Explorer: https://testnet.bscscan.com/address/$contractAddress""")
         }

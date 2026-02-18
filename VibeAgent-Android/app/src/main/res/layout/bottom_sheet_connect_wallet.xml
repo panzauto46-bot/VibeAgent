@@ -48,7 +48,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pilih wallet yang ingin dihubungkan atau masukkan alamat wallet secara manual."
+        android:text="Choose a wallet to connect or enter a wallet address manually."
         android:textColor="@color/text_secondary"
         android:textSize="13sp"
         android:layout_marginBottom="20dp" />
@@ -305,7 +305,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ATAU MASUKKAN ALAMAT MANUAL"
+        android:text="OR ENTER ADDRESS MANUALLY"
         android:textColor="@color/text_tertiary"
         android:textSize="10sp"
         android:textAllCaps="true"
@@ -388,7 +388,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Buat Wallet Baru"
+            android:text="Create New Wallet"
             android:textColor="@color/primary_yellow"
             android:textSize="14sp"
             android:textStyle="bold" />

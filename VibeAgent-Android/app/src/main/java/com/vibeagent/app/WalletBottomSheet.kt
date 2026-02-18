@@ -67,7 +67,7 @@ class WalletBottomSheet : BottomSheetDialogFragment() {
             val googleSignInClient = com.google.android.gms.auth.api.signin.GoogleSignIn.getClient(requireContext(), gso)
             
             googleSignInClient.signOut().addOnCompleteListener(requireActivity()) {
-                Toast.makeText(context, "✅ Logout berhasil. Data wallet telah dihapus dari perangkat.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "✅ Logout successful. Wallet data has been removed from device.", Toast.LENGTH_SHORT).show()
                 
                 val intent = android.content.Intent(requireContext(), AuthActivity::class.java)
                 intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -90,7 +90,7 @@ class WalletBottomSheet : BottomSheetDialogFragment() {
             if (!privateKey.isNullOrBlank()) {
                 copyToClipboard("Private Key", privateKey)
             } else {
-                Toast.makeText(context, "⚠️ Mode read-only: tidak ada private key", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "⚠️ Read-only mode: no private key available", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -130,7 +130,7 @@ class WalletBottomSheet : BottomSheetDialogFragment() {
             if (!privateKey.isNullOrBlank()) {
                 binding.textPrivateKey.text = privateKey
             } else {
-                binding.textPrivateKey.text = "(read-only mode — tidak ada private key)"
+                binding.textPrivateKey.text = "(read-only mode — no private key available)"
             }
             binding.btnShowKey.alpha = 1.0f
         } else {

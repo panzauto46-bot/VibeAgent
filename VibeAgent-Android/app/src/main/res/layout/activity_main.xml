@@ -233,7 +233,7 @@
 
 
 
-            <!-- Cek Saldo -->
+            <!-- Check Balance -->
             <LinearLayout
                 android:id="@+id/btnCheckBalance"
                 android:layout_width="wrap_content"
@@ -266,7 +266,7 @@
                     android:textSize="@dimen/text_sm" />
             </LinearLayout>
 
-            <!-- Kirim BNB -->
+            <!-- Send BNB -->
             <LinearLayout
                 android:id="@+id/btnSendBnb"
                 android:layout_width="wrap_content"
@@ -299,7 +299,7 @@
                     android:textSize="@dimen/text_sm" />
             </LinearLayout>
 
-            <!-- Analisis AI -->
+            <!-- AI Analysis -->
             <LinearLayout
                 android:id="@+id/btnAnalyze"
                 android:layout_width="wrap_content"
@@ -327,12 +327,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
-                    android:text="Analisis AI"
+                    android:text="AI Analysis"
                     android:textColor="@color/text_secondary"
                     android:textSize="@dimen/text_sm" />
             </LinearLayout>
 
-            <!-- Bantuan -->
+            <!-- Help -->
             <LinearLayout
                 android:id="@+id/btnHelp"
                 android:layout_width="wrap_content"

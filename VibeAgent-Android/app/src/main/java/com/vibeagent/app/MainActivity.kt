@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     // ===== SPEECH RECOGNITION SETUP =====
     private fun setupSpeechRecognizer() {
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
-            Toast.makeText(this, "Speech Recognition tidak tersedia di perangkat ini", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Speech Recognition is not available on this device", Toast.LENGTH_LONG).show()
             binding.btnMic.visibility = View.GONE
             return
         }
@@ -88,14 +88,14 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     isListening = true
                     binding.btnMic.background = ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_mic_recording)
-                    binding.editMessage.hint = "🎤 Mendengarkan..."
+                    binding.editMessage.hint = "🎤 Listening..."
                     startPulseAnimation()
                 }
             }
 
             override fun onBeginningOfSpeech() {
                 runOnUiThread {
-                    binding.editMessage.hint = "🎤 Bicara sekarang..."
+                    binding.editMessage.hint = "🎤 Speak now..."
                 }
             }
 
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             override fun onEndOfSpeech() {
                 runOnUiThread {
                     stopListeningUI()
-                    binding.editMessage.hint = "⏳ Memproses suara..."
+                    binding.editMessage.hint = "⏳ Processing voice..."
                 }
             }
 
@@ -116,12 +116,12 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     stopListeningUI()
                     val errorMsg = when (error) {
-                        SpeechRecognizer.ERROR_NO_MATCH -> "Tidak dapat mengenali suara. Coba lagi."
-                        SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "Timeout. Coba bicara lebih cepat."
-                        SpeechRecognizer.ERROR_AUDIO -> "Error audio. Cek microphone."
-                        SpeechRecognizer.ERROR_NETWORK -> "Error jaringan. Cek koneksi internet."
-                        SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Timeout jaringan."
-                        SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Izin microphone diperlukan."
+                        SpeechRecognizer.ERROR_NO_MATCH -> "Could not recognize speech. Please try again."
+                        SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "Timeout. Try speaking sooner."
+                        SpeechRecognizer.ERROR_AUDIO -> "Audio error. Check your microphone."
+                        SpeechRecognizer.ERROR_NETWORK -> "Network error. Check your internet connection."
+                        SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Network timeout."
+                        SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Microphone permission is required."
                         else -> "Error: $error"
                     }
                     Toast.makeText(this@MainActivity, "🎤 $errorMsg", Toast.LENGTH_SHORT).show()
@@ -176,8 +176,8 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "id-ID") // Indonesian language
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "id-ID")
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US") // English language
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "en-US")
             putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
             putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
             putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 3000L)
@@ -186,7 +186,7 @@ class MainActivity : AppCompatActivity() {
         try {
             speechRecognizer?.startListening(intent)
         } catch (e: Exception) {
-            Toast.makeText(this, "Gagal memulai voice recognition: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Failed to start voice recognition: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -235,7 +235,7 @@ class MainActivity : AppCompatActivity() {
                 // Permission granted, start listening
                 startListening()
             } else {
-                Toast.makeText(this, "Izin microphone diperlukan untuk fitur voice input", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Microphone permission is required for voice input", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -289,11 +289,11 @@ class MainActivity : AppCompatActivity() {
 
         // Quick Actions
         binding.btnCheckBalance.setOnClickListener {
-            viewModel.processMessage("Cek saldo")
+            viewModel.processMessage("Check balance")
         }
 
         binding.btnSendBnb.setOnClickListener {
-            binding.editMessage.setText("Kirim 0.01 BNB ke ")
+            binding.editMessage.setText("Send 0.01 BNB to ")
             binding.editMessage.setSelection(binding.editMessage.text.length)
             binding.editMessage.requestFocus()
         }

@@ -93,17 +93,17 @@ class AuthActivity : AppCompatActivity() {
         val seedPhrase = binding.editSeedPhrase.text.toString().trim()
 
         if (seedPhrase.isEmpty()) {
-            Toast.makeText(this, "⚠️ Masukkan seed phrase (12 atau 24 kata)", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "⚠️ Please enter a seed phrase (12 or 24 words)", Toast.LENGTH_SHORT).show()
             return
         }
 
         val words = seedPhrase.lowercase().split("\\s+".toRegex())
         if (words.size != 12 && words.size != 24) {
-            Toast.makeText(this, "⚠️ Seed phrase harus 12 atau 24 kata (Anda input ${words.size} kata)", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "⚠️ Seed phrase must be 12 or 24 words (you entered ${words.size} words)", Toast.LENGTH_LONG).show()
             return
         }
 
-        binding.btnImportSubmit.text = "Memproses..."
+        binding.btnImportSubmit.text = "Processing..."
         binding.btnImportSubmit.isEnabled = false
 
         try {
@@ -143,11 +143,11 @@ class AuthActivity : AppCompatActivity() {
                 loginMethod = "new_wallet"
             )
 
-            Toast.makeText(this, "✅ Wallet dibuat! Simpan seed phrase Anda!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "✅ Wallet created! Save your seed phrase!", Toast.LENGTH_LONG).show()
             saveLoginStateAndProceed(newWallet.address, "wallet_new")
 
         } catch (e: Exception) {
-            Toast.makeText(this, "❌ Gagal membuat wallet: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "❌ Failed to create wallet: ${e.message}", Toast.LENGTH_SHORT).show()
             binding.btnCreateWalletAuth.isEnabled = true
         }
     }
@@ -168,7 +168,7 @@ class AuthActivity : AppCompatActivity() {
             apply()
         }
 
-        Toast.makeText(this, "🔗 Wallet connected! Masuk ke VibeAgent...", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "🔗 Wallet connected! Entering VibeAgent...", Toast.LENGTH_SHORT).show()
 
         startActivity(Intent(this, MainActivity::class.java))
         finish()
@@ -184,24 +184,24 @@ class AuthActivity : AppCompatActivity() {
         when (currentMode) {
             "login" -> {
                 binding.loginForm.visibility = View.VISIBLE
-                binding.textTitle.text = "Selamat Datang! 👋"
-                binding.textSubtitle.text = "Masuk ke akun Anda untuk melanjutkan"
-                binding.textToggleHint.text = "Belum punya akun?"
-                binding.btnToggleAuth.text = "Daftar sekarang"
+                binding.textTitle.text = "Welcome! 👋"
+                binding.textSubtitle.text = "Sign in to your account to continue"
+                binding.textToggleHint.text = "Don't have an account?"
+                binding.btnToggleAuth.text = "Register now"
             }
             "register" -> {
                 binding.registerForm.visibility = View.VISIBLE
-                binding.textTitle.text = "Buat Akun Baru 🚀"
-                binding.textSubtitle.text = "Daftar untuk mulai menggunakan VibeAgent"
-                binding.textToggleHint.text = "Sudah punya akun?"
-                binding.btnToggleAuth.text = "Masuk di sini"
+                binding.textTitle.text = "Create New Account 🚀"
+                binding.textSubtitle.text = "Register to start using VibeAgent"
+                binding.textToggleHint.text = "Already have an account?"
+                binding.btnToggleAuth.text = "Sign in here"
             }
             "phrase" -> {
                 binding.phraseForm.visibility = View.VISIBLE
                 binding.textTitle.text = "Import Wallet 🔑"
-                binding.textSubtitle.text = "Hubungkan wallet existing Anda"
-                binding.textToggleHint.text = "Mau pakai email?"
-                binding.btnToggleAuth.text = "Login email"
+                binding.textSubtitle.text = "Connect your existing wallet"
+                binding.textToggleHint.text = "Want to use email?"
+                binding.btnToggleAuth.text = "Email login"
             }
         }
     }
@@ -247,10 +247,10 @@ class AuthActivity : AppCompatActivity() {
         val email = binding.editLoginEmail.text.toString().trim()
         val password = binding.editLoginPassword.text.toString().trim()
 
-        if (email.isEmpty()) { binding.editLoginEmail.error = "Email harus diisi"; return }
-        if (password.isEmpty()) { binding.editLoginPassword.error = "Password harus diisi"; return }
+        if (email.isEmpty()) { binding.editLoginEmail.error = "Email is required"; return }
+        if (password.isEmpty()) { binding.editLoginPassword.error = "Password is required"; return }
 
-        binding.btnLoginSubmit.text = "Memuat..."
+        binding.btnLoginSubmit.text = "Loading..."
         binding.btnLoginSubmit.isEnabled = false
 
         auth.signInWithEmailAndPassword(email, password)
@@ -258,8 +258,8 @@ class AuthActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     handleSuccessfulLogin(email)
                 } else {
-                    Toast.makeText(this, "Login gagal: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                    binding.btnLoginSubmit.text = "Masuk"
+                    Toast.makeText(this, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    binding.btnLoginSubmit.text = "Sign In"
                     binding.btnLoginSubmit.isEnabled = true
                 }
             }
@@ -271,13 +271,13 @@ class AuthActivity : AppCompatActivity() {
         val password = binding.editRegisterPassword.text.toString().trim()
         val confirmPassword = binding.editRegisterConfirmPassword.text.toString().trim()
 
-        if (name.isEmpty()) { binding.editRegisterName.error = "Nama harus diisi"; return }
-        if (email.isEmpty()) { binding.editRegisterEmail.error = "Email harus diisi"; return }
-        if (password.isEmpty() || password.length < 6) { binding.editRegisterPassword.error = "Password minimal 6 karakter"; return }
-        if (confirmPassword != password) { binding.editRegisterConfirmPassword.error = "Password tidak cocok"; return }
-        if (!binding.checkTerms.isChecked) { Toast.makeText(this, "Anda harus menyetujui Syarat & Ketentuan", Toast.LENGTH_SHORT).show(); return }
+        if (name.isEmpty()) { binding.editRegisterName.error = "Name is required"; return }
+        if (email.isEmpty()) { binding.editRegisterEmail.error = "Email is required"; return }
+        if (password.isEmpty() || password.length < 6) { binding.editRegisterPassword.error = "Password must be at least 6 characters"; return }
+        if (confirmPassword != password) { binding.editRegisterConfirmPassword.error = "Passwords do not match"; return }
+        if (!binding.checkTerms.isChecked) { Toast.makeText(this, "You must agree to the Terms & Conditions", Toast.LENGTH_SHORT).show(); return }
 
-        binding.btnRegisterSubmit.text = "Memuat..."
+        binding.btnRegisterSubmit.text = "Loading..."
         binding.btnRegisterSubmit.isEnabled = false
 
         auth.createUserWithEmailAndPassword(email, password)
@@ -290,8 +290,8 @@ class AuthActivity : AppCompatActivity() {
                     user?.updateProfile(profileUpdates)
                     handleSuccessfulLogin(email)
                 } else {
-                    Toast.makeText(this, "Register gagal: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                    binding.btnRegisterSubmit.text = "Daftar Sekarang"
+                    Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    binding.btnRegisterSubmit.text = "Register Now"
                     binding.btnRegisterSubmit.isEnabled = true
                 }
             }
@@ -302,7 +302,7 @@ class AuthActivity : AppCompatActivity() {
         prefs.edit().putBoolean("is_logged_in", true).apply()
         prefs.edit().putString("user_email", email).apply()
 
-        Toast.makeText(this, "Berhasil masuk!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
 
         startActivity(Intent(this, MainActivity::class.java))
         finish()

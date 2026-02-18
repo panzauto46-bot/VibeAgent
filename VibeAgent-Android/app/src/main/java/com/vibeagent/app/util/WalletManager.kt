@@ -29,9 +29,9 @@ class WalletManager {
         .readTimeout(30, TimeUnit.SECONDS)
         .build()
 
-    // BSC MAINNET (untuk wallet asli)
+    // BSC MAINNET (for real wallets)
     private val bscMainnetRpc = "https://bsc-dataseed1.binance.org/"
-    // BSC TESTNET (sebagai fallback)
+    // BSC TESTNET (as fallback)
     private val bscTestnetRpc = "https://data-seed-prebsc-1-s1.binance.org:8545/"
 
     // Use mainnet by default for real wallet connections
@@ -79,7 +79,7 @@ class WalletManager {
         val cleanKey = if (privateKey.startsWith("0x")) privateKey else "0x$privateKey"
 
         if (!isValidPrivateKey(cleanKey)) {
-            throw IllegalArgumentException("Private key tidak valid. Harus berupa 64 karakter hex.")
+            throw IllegalArgumentException("Invalid private key. Must be 64 hex characters.")
         }
 
         // Use Web3j Credentials for proper secp256k1 derivation
@@ -96,7 +96,7 @@ class WalletManager {
     fun importFromSeedPhrase(seedPhrase: String): WalletInfo {
         val words = seedPhrase.trim().lowercase().split("\\s+".toRegex())
         if (words.size != 12 && words.size != 24) {
-            throw IllegalArgumentException("Seed phrase harus 12 atau 24 kata. Anda memasukkan ${words.size} kata.")
+            throw IllegalArgumentException("Seed phrase must be 12 or 24 words. You entered ${words.size} words.")
         }
 
         // ===== BIP39 WORD VALIDATION =====
@@ -110,8 +110,8 @@ class WalletManager {
         }
         if (invalidWords.isNotEmpty()) {
             throw IllegalArgumentException(
-                "Kata tidak valid dalam BIP39 wordlist: ${invalidWords.joinToString(", ")}. " +
-                "Periksa kembali ejaan seed phrase Anda."
+                "Invalid words in BIP39 wordlist: ${invalidWords.joinToString(", ")}. " +
+                "Please double-check your seed phrase spelling."
             )
         }
 
@@ -120,7 +120,7 @@ class WalletManager {
         // BIP39: Validate the entire mnemonic (checksum validation)
         if (!org.web3j.crypto.MnemonicUtils.validateMnemonic(cleanPhrase)) {
             throw IllegalArgumentException(
-                "Seed phrase tidak valid (checksum error). Pastikan urutan kata benar."
+                "Invalid seed phrase (checksum error). Please make sure the word order is correct."
             )
         }
 
@@ -182,7 +182,7 @@ class WalletManager {
 
             balanceBnb.stripTrailingZeros().toPlainString()
         } catch (e: Exception) {
-            throw Exception("Gagal mengecek saldo: ${e.message}")
+            throw Exception("Failed to check balance: ${e.message}")
         }
     }
 
@@ -267,12 +267,12 @@ class WalletManager {
 
     suspend fun sendBnb(privateKey: String, toAddress: String, amount: String): String = withContext(Dispatchers.IO) {
         if (!isValidAddress(toAddress)) {
-            throw IllegalArgumentException("Alamat tujuan tidak valid")
+            throw IllegalArgumentException("Invalid destination address")
         }
 
-        val amountValue = amount.toDoubleOrNull() ?: throw IllegalArgumentException("Jumlah tidak valid")
+        val amountValue = amount.toDoubleOrNull() ?: throw IllegalArgumentException("Invalid amount")
         if (amountValue <= 0) {
-            throw IllegalArgumentException("Jumlah harus lebih dari 0")
+            throw IllegalArgumentException("Amount must be greater than 0")
         }
 
         // Simulate transaction hash for demo

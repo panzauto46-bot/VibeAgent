@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="VibeAgent is an AI-powered financial assistant for BNB Chain. Manage your crypto assets, analyze portfolios, and execute transactions via chat. Safe, secure, and non-custodial.">
+    <title>VibeAgent - AI Financial Assistant for BNB Chain</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#F59E0B" stroke="#F59E0B" stroke-width="1" />
+                </svg>
+                <span>VibeAgent</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#fitur">Features</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#cara-kerja">How It Works</a></li>
+                <li><a href="#keamanan">Security</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <a href="#demo" class="btn btn-primary nav-cta">Try Now</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero + Features Combined Section -->
+    <section class="hero-features-section" id="hero">
+        <div class="container">
+            <div class="hero-features-grid">
+                <!-- Left: Hero -->
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        BSC Mainnet &bull; Live & Ready
+                    </div>
+                    <h1>AI Financial Assistant<br><span class="highlight">for BNB Chain</span></h1>
+                    <div class="hero-buttons">
+                        <a href="#demo" class="btn btn-primary">View Demo</a>
+                        <a href="#fitur-detail" class="btn btn-outline">Learn Features</a>
+                    </div>
+                    <div class="hero-avatars">
+                        <div class="avatar-group">
+                            <div class="avatar" style="background: #F59E0B;">
+                                <i class="fab fa-android"></i>
+                            </div>
+                            <div class="avatar" style="background: #3B82F6;">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <div class="avatar" style="background: #8B5CF6;">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                        </div>
+                        <div class="avatar-labels">
+                            <span>Android Native App</span>
+                            <span>Powered by Groq AI & Web3j</span>
+                        </div>
+                    </div>
+                    <!-- Phone mockup under hero text -->
+                    <div class="hero-visual-inline">
+                        <div class="phone-mockup">
+                            <div class="phone-screen">
+                                <div class="chat-header">
+                                    <div class="chat-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div>
+                                        <strong>VibeAgent AI</strong>
+                                        <span class="online-status">Online</span>
+                                    </div>
+                                </div>
+                                <div class="chat-messages">
+                                    <div class="chat-bubble bot">
+                                        <p>Hello! I'm VibeAgent AI. How can I help you today?</p>
+                                    </div>
+                                    <div class="chat-bubble user">
+                                        <p>Send 0.1 BNB to my wallet</p>
+                                    </div>
+                                    <div class="chat-bubble bot">
+                                        <p>Transaction successful! 0.1 BNB has been sent.</p>
+                                        <div class="tx-badge">
+                                            <i class="fas fa-check-circle"></i> TX Confirmed
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chat-input-mock">
+                                    <span>Type a message...</span>
+                                    <div class="chat-actions">
+                                        <i class="fas fa-microphone"></i>
+                                        <div class="icon-spacer"></div>
+                                        <i class="fas fa-paper-plane"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Features Grid -->
+                <div class="features-panel" id="fitur">
+                    <div class="section-header">
+                        <h2>All You Need</h2>
+                        <button class="more-btn"><i class="fas fa-ellipsis-h"></i></button>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3>AI Financial Chat</h3>
+                            <p>Check balance, portfolio analysis, or send assets via natural language chat.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon icon-blue">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3>Portfolio Analysis</h3>
+                            <p>AI analyzes your wallet contents in real-time from on-chain data.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon icon-purple">
+                                <i class="fas fa-shield-halved"></i>
+                            </div>
+                            <h3>Non-Custodial &<br>AES-256</h3>
+                            <p>Your private keys are encrypted locally. Asset security is fully in your hands.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon icon-green">
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
+                            <h3>Instant Crypto Transfer</h3>
+                            <p>Send crypto assets to friends or other wallets as easily as sending a chat, fast and
+                                transparent on-chain.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon icon-cyan">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <h3>Smart Wallet<br>(BIP39 Standard)</h3>
+                            <p>Import industry-standard seed phrases identical to Trust Wallet or MetaMask.
+                            </p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon icon-red">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Real-Time Market<br>Insights</h3>
+                            <p>AI provides market trend analysis and portfolio insights intelligently without needing to
+                                read complex charts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="cara-kerja">
+        <div class="container">
+            <div class="how-it-works-grid">
+                <!-- Left Column - Lihat Cara Kerjanya -->
+                <div class="how-left">
+                    <div class="section-header">
+                        <h2>See How It Works</h2>
+                        <button class="more-btn"><i class="fas fa-ellipsis-h"></i></button>
+                    </div>
+                    <div class="steps-flow">
+                        <div class="step-card">
+                            <div class="step-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>Register & Create Account</h4>
+                                <p>Create an account and connect your wallet to start using the service.</p>
+                            </div>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-card highlight-card">
+                            <div class="step-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>Smart Command Parser</h4>
+                                <p>AI processes your commands into real blockchain transactions.</p>
+                            </div>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-card">
+                            <div class="step-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>Real-Time Portfolio Insight</h4>
+                                <p>AI assistant analyzes blockchain data and your balances.</p>
+                            </div>
+                        </div>
+                        <div class="step-row-bottom">
+                            <div class="step-card">
+                                <div class="step-icon">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4>Monitor/Manage<br>Portfolio</h4>
+                                    <p>Monitor asset performance and manage your portfolio in real-time.</p>
+                                </div>
+                            </div>
+                            <div class="step-card">
+                                <div class="step-icon">
+                                    <i class="fas fa-clipboard-check"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4>Transaction History</h4>
+                                    <p>View complete transaction history with details and status.</p>
+                                </div>
+                            </div>
+                            <div class="step-card mini-card">
+                                <div class="mini-preview">
+                                    <div class="mini-line"></div>
+                                    <div class="mini-line short"></div>
+                                    <div class="mini-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Dari Pesan ke Transaksi -->
+                <div class="how-right">
+                    <div class="section-header">
+                        <h2>From Message to Transaction</h2>
+                        <button class="more-btn"><i class="fas fa-ellipsis-h"></i></button>
+                    </div>
+                    <div class="transaction-flow">
+                        <div class="tx-timeline">
+                            <div class="tx-step">
+                                <div class="tx-number">01</div>
+                                <div class="tx-label">Send Command</div>
+                                <div class="tx-dot"></div>
+                            </div>
+                            <div class="tx-line"></div>
+                            <div class="tx-step">
+                                <div class="tx-number">02</div>
+                                <div class="tx-label">Analysis & Confirmation</div>
+                                <div class="tx-dot"></div>
+                            </div>
+                            <div class="tx-line"></div>
+                            <div class="tx-step">
+                                <div class="tx-number">03</div>
+                                <div class="tx-label">Blockchain Execution</div>
+                                <div class="tx-dot"></div>
+                            </div>
+                        </div>
+
+                        <div class="tx-timeline-bottom">
+                            <div class="tx-step-bottom">
+                                <div class="tx-number-alt">01</div>
+                                <div class="tx-dot-alt"></div>
+                                <h4>Send Command</h4>
+                                <p>Simply type or use voice: "Send 0.01 BNB". AI instantly captures your intent.</p>
+                            </div>
+                            <div class="tx-step-bottom">
+                                <div class="tx-number-alt">02</div>
+                                <div class="tx-dot-alt"></div>
+                                <h4>Analysis & Confirmation</h4>
+                                <p>Groq AI validates destination & amount details. You just verify and confirm.</p>
+                            </div>
+                            <div class="tx-step-bottom">
+                                <div class="tx-number-alt">03</div>
+                                <div class="tx-dot-alt"></div>
+                                <h4>Blockchain Execution</h4>
+                                <p>Transaction processed on BSC Mainnet in real-time and transfer proof (TxHash) appears
+                                    in chat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Showcase Section -->
+    <section class="app-showcase" id="demo">
+        <div class="container">
+            <div class="showcase-header">
+                <h2>See Our App</h2>
+                <p>An easy and intuitive crypto transaction experience right in your hands</p>
+            </div>
+            <div class="showcase-phones">
+                <!-- Image 1 -->
+                <div class="showcase-phone phone-side-left">
+                    <img src="app-login.png" alt="Login Screen" class="app-screenshot">
+                </div>
+
+                <!-- Image 2 (Center) -->
+                <div class="showcase-phone phone-center">
+                    <img src="app-chat.png" alt="Chat & Dashboard" class="app-screenshot">
+                </div>
+
+                <!-- Image 3 -->
+                <div class="showcase-phone phone-side-right">
+                    <img src="app-wallet.png" alt="Wallet Details" class="app-screenshot">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology & CTA + FAQ -->
+    <section class="bottom-section" id="keamanan">
+        <div class="container">
+            <div class="bottom-grid">
+                <!-- Left - Tech & CTA -->
+                <div class="tech-cta">
+                    <div class="section-header">
+                        <h2>Used Technologies</h2>
+                        <button class="more-btn"><i class="fas fa-ellipsis-h"></i></button>
+                    </div>
+                    <div class="cta-box">
+                        <h2>Ready to Try VibeAgent?</h2>
+                        <p>Manage your Web3 assets in a new way. Smart, secure, and as easy as chatting. Download now
+                            and experience the power.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag"><i class="fab fa-android"></i> Android</span>
+                            <span class="tech-tag"><i class="fas fa-cube"></i> Web3j</span>
+                            <span class="tech-tag">Groq</span>
+                            <span class="tech-tag"><i class="fas fa-code"></i> Kotlin</span>
+                            <span class="tech-tag"><i class="fas fa-palette"></i> Material 3</span>
+
+                        </div>
+                        <div class="cta-buttons">
+                            <a href="#demo" class="btn btn-primary">Try Demo Now</a>
+                            <a href="#" class="btn btn-outline"><i class="fas fa-code-branch"></i> Source Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right - FAQ -->
+                <div class="faq-section" id="faq">
+                    <div class="section-header">
+                        <h2>Frequently Asked Questions (FAQ)</h2>
+                        <button class="more-btn"><i class="fas fa-ellipsis-h"></i></button>
+                    </div>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <div class="faq-q-icon"><i class="fas fa-question-circle"></i></div>
+                                <span>Is VibeAgent safe for crypto transactions?</span>
+                                <div class="faq-toggle"><i class="fas fa-chevron-right"></i></div>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Very safe. We use local AES-256 encryption and are Non-Custodial. Private keys never
+                                    leave your phone.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <div class="faq-q-icon"><i class="fas fa-question-circle"></i></div>
+                                <span>How do I start using VibeAgent?</span>
+                                <div class="faq-toggle"><i class="fas fa-chevron-right"></i></div>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Simply download the APK, then select "Create New Wallet" or "Import Phrase" from your
+                                    old wallet.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <div class="faq-q-icon"><i class="fas fa-question-circle"></i></div>
+                                <span>Is there a fee to use VibeAgent services?</span>
+                                <div class="faq-toggle"><i class="fas fa-chevron-right"></i></div>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Free to use. You only need to pay standard BNB Chain network gas fees for
+                                    transactions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <a href="#" class="logo">
+                        <svg class="logo-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#F59E0B" stroke="#F59E0B"
+                                stroke-width="1" />
+                        </svg>
+                        <span>VibeAgent</span>
+                    </a>
+                    <div class="footer-links">
+                        <a href="#fitur">Features</a>
+                        <a href="#demo">Demo</a>
+                        <a href="#cara-kerja">How It Works</a>
+                        <a href="#keamanan">Security</a>
+                        <a href="#faq">FAQ</a>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-decoration">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                <path d="M30 0L35 25L60 30L35 35L30 60L25 35L0 30L25 25L30 0Z" fill="#F59E0B" opacity="0.3" />
+            </svg>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

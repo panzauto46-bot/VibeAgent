@@ -61,7 +61,7 @@ Beginners are **intimidated** by wallet addresses, gas fees, confusing dashboard
 
 ## 💡 The Solution
 
-**VibeAgent** is a **Native Android Application** with a **React Web companion** that replaces the traditional wallet UI with a **conversational AI interface**. Powered by **Groq (Llama 3.3-70B)**, it allows users to manage their assets on **BNB Smart Chain** simply by **talking or texting** — like chatting with a friend.
+**VibeAgent** is a **Native Android Application** with a **React Web companion** that replaces the traditional wallet UI with a **conversational AI interface**. Powered by **Groq's compound-beta model** (the world's fastest AI inference via LPU), it allows users to manage their assets on **BNB Smart Chain** simply by **talking or texting** — like chatting with a friend.
 
 ```
 👤 User: "Hey, how much BNB do I have?"
@@ -87,8 +87,8 @@ Beginners are **intimidated** by wallet addresses, gas fees, confusing dashboard
       <p>No need to navigate complex menus. Just say <code>"Send 0.001 BNB to this address"</code> or <code>"Check my balance"</code> — the AI handles the rest. Supports both <strong>voice input</strong> and <strong>text commands</strong>.</p>
     </td>
     <td width="50%">
-      <h3>⚡ Powered by Groq AI (Llama 3.3-70B)</h3>
-      <p>Utilizes the <strong>ultra-fast inference</strong> of Llama 3.3 via Groq to parse user intents <em>instantly</em>. Response times under 500ms ensure a <strong>lag-free, real-time</strong> conversational experience.</p>
+      <h3>⚡ Powered by Groq AI (compound-beta)</h3>
+      <p>Utilizes <strong>Groq's compound-beta model</strong> running on the world's fastest <strong>LPU (Language Processing Unit)</strong> inference engine. Integrated web search and tool use provide <strong>real-time, context-aware</strong> responses with sub-second latency.</p>
     </td>
   </tr>
   <tr>
@@ -187,7 +187,7 @@ Users can interact with the contract via natural language:
 │        │ ⌨️ Text      │ (Google STT)      │                     │
 ├────────┼──────────────┼───────────────────┼─────────────────────┤
 │   2    │ Raw text     │ 🧠 Groq AI        │ Parsed intent +     │
-│        │              │ (Llama 3.3-70B)   │ structured data     │
+│        │              │ (compound-beta)   │ structured data     │
 ├────────┼──────────────┼───────────────────┼─────────────────────┤
 │   3    │ Parsed       │ 🔗 Web3j signs    │ Signed transaction  │
 │        │ intent       │ TX locally        │ broadcast to BSC    │
@@ -212,7 +212,7 @@ Users can interact with the contract via natural language:
 |-------|-----------|---------|
 | **Android Frontend** | Kotlin + Material Design 3 | Native Android UI with modern design language |
 | **Web Frontend** | React 19 + TypeScript + Vite | Responsive web chat interface |
-| **AI Brain** | Groq API (Llama 3.3-70B Versatile) | Ultra-fast NLP inference — converts human language to blockchain commands |
+| **AI Brain** | Groq API (compound-beta on LPU) | Ultra-fast AI inference with web search & tool use — converts human language to blockchain commands |
 | **Smart Contract** | Solidity ^0.8.19 + Hardhat | On-chain user registry deployed on BNB Chain |
 | **Blockchain (Android)** | Web3j 4.9.8 | Wallet creation (BIP39/BIP44), transaction signing, BSC RPC interaction |
 | **Blockchain (Web)** | Ethers.js 6.13.1 | Web-based wallet operations and contract interaction |
@@ -259,8 +259,8 @@ Users can interact with the contract via natural language:
 │  ☁️ External Services                                             │
 │  ┌────────────────┐  ┌──────────────────┐  ┌──────────────────┐  │
 │  │ Groq Cloud      │  │ BNB Smart Chain   │  │ VibeAgent        │  │
-│  │ Llama 3.3-70B   │  │ BSC Mainnet:56    │  │ Registry         │  │
-│  │ ~500ms latency  │  │ BSC Testnet:97    │  │ (Smart Contract) │  │
+│  │ compound-beta   │  │ BSC Mainnet:56    │  │ Registry         │  │
+│  │ LPU inference   │  │ BSC Testnet:97    │  │ (Smart Contract) │  │
 │  └────────────────┘  └──────────────────┘  └──────────────────┘  │
 └───────────────────────────────────────────────────────────────────┘
 ```
@@ -443,7 +443,8 @@ npm run deploy:mainnet
 
 ### Phase 1 — Core (Completed ✅)
 
-- [x] Conversational AI chat interface with Groq (Llama 3.3-70B)
+- [x] Conversational AI chat interface with Groq (compound-beta model)
+- [x] Full English UI — all strings, commands, and messages localized to English
 - [x] Voice input with Google Speech Recognition
 - [x] BIP39/BIP44 wallet generation and seed phrase import
 - [x] BSC Mainnet + Testnet integration

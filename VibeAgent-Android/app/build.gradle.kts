@@ -7,13 +7,12 @@ plugins {
     id("com.google.gms.google-services")
 }
 
-// Load Gemini API Key from local.properties
+// Load Groq API Key from local.properties
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
     localProperties.load(FileInputStream(localPropertiesFile))
 }
-val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY") ?: ""
 val groqApiKey = localProperties.getProperty("GROQ_API_KEY") ?: ""
 
 android {
@@ -29,8 +28,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
-        // Inject API Key into BuildConfig
-        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
+        // Inject Groq API Key into BuildConfig
         buildConfigField("String", "GROQ_API_KEY", "\"$groqApiKey\"")
     }
 
@@ -63,8 +61,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     
-    // Google AI SDK for Android (Updated to Stable)
-    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    // Groq AI (via OkHttp, no separate SDK needed)
+    // API calls handled directly in ChatViewModel via OkHttpClient
     
     // Existing dependencies
     implementation("androidx.appcompat:appcompat:1.6.1")

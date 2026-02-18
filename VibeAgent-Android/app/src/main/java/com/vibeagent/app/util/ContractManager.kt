@@ -12,7 +12,7 @@ import java.math.BigInteger
 import java.util.concurrent.TimeUnit
 
 /**
- * ContractManager - Interaksi dengan VibeAgentRegistry smart contract di BNB Chain
+ * ContractManager - Interaction with VibeAgentRegistry smart contract on BNB Chain
  */
 class ContractManager {
 
@@ -22,15 +22,15 @@ class ContractManager {
         .build()
 
     companion object {
-        // ===== GANTI SETELAH DEPLOY =====
-        // Contract address akan diisi setelah deployment
+        // ===== UPDATE AFTER DEPLOYMENT =====
+        // Contract address will be set after deployment
         const val CONTRACT_ADDRESS = "0x49Ee39851956df07E5d3B430dC91e5A00B7E6059"
 
         // BSC RPC
         const val BSC_MAINNET_RPC = "https://bsc-dataseed1.binance.org/"
         const val BSC_TESTNET_RPC = "https://data-seed-prebsc-1-s1.binance.org:8545/"
 
-        // Function selectors (keccak256 hash dari function signature, 4 bytes pertama)
+        // Function selectors (keccak256 hash of function signature, first 4 bytes)
         const val FUNC_TOTAL_USERS = "0x24bc1a64"        // totalUsers()
         const val FUNC_IS_REGISTERED = "0xc3c5a547"      // isRegistered(address)
         const val FUNC_APP_NAME = "0x350cb118"            // APP_NAME()
@@ -42,7 +42,7 @@ class ContractManager {
     private val activeRpc = BSC_TESTNET_RPC
 
     /**
-     * Cek apakah address sudah terdaftar di VibeAgent Registry
+     * Check if an address is registered in the VibeAgent Registry
      */
     suspend fun isUserRegistered(walletAddress: String): Boolean = withContext(Dispatchers.IO) {
         try {
@@ -59,7 +59,7 @@ class ContractManager {
     }
 
     /**
-     * Ambil total users yang terdaftar
+     * Get total number of registered users
      */
     suspend fun getTotalUsers(): Long = withContext(Dispatchers.IO) {
         try {
@@ -73,7 +73,7 @@ class ContractManager {
     }
 
     /**
-     * Ambil profile user dari contract
+     * Get user profile from contract
      */
     suspend fun getUserProfile(walletAddress: String): UserContractProfile? = withContext(Dispatchers.IO) {
         try {
@@ -108,7 +108,7 @@ class ContractManager {
     }
 
     /**
-     * Ambil nama aplikasi dari contract
+     * Get app name from contract
      */
     suspend fun getAppName(): String = withContext(Dispatchers.IO) {
         try {
@@ -120,8 +120,8 @@ class ContractManager {
     }
 
     /**
-     * Build transaction data untuk register(string nickname)
-     * User perlu sign & broadcast sendiri via WalletManager
+     * Build transaction data for register(string nickname)
+     * User needs to sign & broadcast via WalletManager
      */
     fun buildRegisterTxData(nickname: String): String {
         // register(string) selector = 0x1aa3a008 (keccak256 dari "register(string)")

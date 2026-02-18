@@ -127,7 +127,7 @@ class ConnectWalletBottomSheet : BottomSheetDialogFragment() {
                     startActivity(intent)
                     Toast.makeText(
                         context,
-                        "📋 Buka ${walletInfo.storeName}, salin alamat wallet Anda, lalu kembali dan paste di sini",
+                        "📋 Open ${walletInfo.storeName}, copy your wallet address, then come back and paste it here",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -138,11 +138,11 @@ class ConnectWalletBottomSheet : BottomSheetDialogFragment() {
                     startActivity(deepIntent)
                     Toast.makeText(
                         context,
-                        "📋 Salin alamat wallet Anda dari ${walletInfo.storeName}, lalu kembali dan paste",
+                        "📋 Copy your wallet address from ${walletInfo.storeName}, then come back and paste",
                         Toast.LENGTH_LONG
                     ).show()
                 } catch (e2: Exception) {
-                    Toast.makeText(context, "Gagal membuka ${walletInfo.storeName}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Failed to open ${walletInfo.storeName}", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
@@ -155,7 +155,7 @@ class ConnectWalletBottomSheet : BottomSheetDialogFragment() {
                 startActivity(playStoreIntent)
                 Toast.makeText(
                     context,
-                    "📥 ${walletInfo.storeName} belum terinstall. Redirecting ke Play Store...",
+                    "📥 ${walletInfo.storeName} is not installed. Redirecting to Play Store...",
                     Toast.LENGTH_LONG
                 ).show()
             } catch (e: Exception) {
@@ -185,15 +185,15 @@ class ConnectWalletBottomSheet : BottomSheetDialogFragment() {
             val pastedText = clipData.getItemAt(0).text?.toString() ?: ""
             binding.editWalletAddress.setText(pastedText)
             binding.editWalletAddress.setSelection(pastedText.length)
-            Toast.makeText(context, "📋 Alamat di-paste dari clipboard", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "📋 Address pasted from clipboard", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Clipboard kosong", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Clipboard is empty", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun connectWithAddress(address: String) {
         if (address.isBlank()) {
-            Toast.makeText(context, "⚠️ Masukkan alamat wallet terlebih dahulu", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "⚠️ Please enter a wallet address first", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -201,7 +201,7 @@ class ConnectWalletBottomSheet : BottomSheetDialogFragment() {
         if (!address.matches(Regex("^0x[a-fA-F0-9]{40}$"))) {
             Toast.makeText(
                 context,
-                "⚠️ Format alamat tidak valid. Harus dimulai dengan 0x dan 42 karakter.",
+                "⚠️ Invalid address format. Must start with 0x and be 42 characters long.",
                 Toast.LENGTH_LONG
             ).show()
             return
