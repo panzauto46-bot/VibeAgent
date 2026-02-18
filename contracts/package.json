@@ -1,0 +1,14 @@
+{
+  "name": "vibeagent-contracts",
+  "version": "1.0.0",
+  "description": "VibeAgent Smart Contracts for BNB Chain",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "deploy:testnet": "npx hardhat run scripts/deploy.js --network bscTestnet",
+    "deploy:mainnet": "npx hardhat run scripts/deploy.js --network bscMainnet"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0"
+  }
+}

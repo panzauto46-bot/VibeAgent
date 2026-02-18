@@ -9,6 +9,7 @@ import com.vibeagent.app.model.MessageRole
 import com.vibeagent.app.model.MessageType
 import com.vibeagent.app.model.WalletInfo
 import com.vibeagent.app.util.CommandParser
+import com.vibeagent.app.util.ContractManager
 import com.vibeagent.app.util.TokenBalance
 import com.vibeagent.app.util.WalletManager
 import kotlinx.coroutines.Dispatchers
@@ -46,6 +47,7 @@ class ChatViewModel : ViewModel() {
 
     private val walletManager = WalletManager()
     private val commandParser = CommandParser()
+    private val contractManager = ContractManager()
 
     // Groq API - Key loaded from local.properties via BuildConfig
     private val GROQ_API_KEY = com.vibeagent.app.BuildConfig.GROQ_API_KEY
@@ -59,6 +61,7 @@ class ChatViewModel : ViewModel() {
     init {
         // Use BSC Mainnet by default (for real wallets)
         walletManager.setNetwork(true)
+        contractManager.setNetwork(true)
 
         val user = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
         val userName = user?.displayName ?: "Kawan"
@@ -76,6 +79,9 @@ Asisten keuangan pribadi berbasis AI untuk BNB Smart Chain.
 • Membaca saldo BNB & token on-chain
 • Analisis portofolio dengan AI
 • Mengirim BNB
+• Registrasi on-chain di VibeAgent Registry
+
+📋 Smart Contract: ${ContractManager.CONTRACT_ADDRESS}
 
 Klik "Connect" di atas untuk mulai, atau ketik "help"!"""
             )
@@ -308,11 +314,13 @@ Berikan analisis lengkap:
             val command = commandParser.parse(input)
 
             try {
+                val lowerInput = input.lowercase()
                 if (command.action == "unknown") {
-                    if (input.lowercase().contains("analisis") || input.lowercase().contains("analyze")) {
-                        handleAIAnalysis()
-                    } else {
-                        handleChat(input)
+                    when {
+                        lowerInput.contains("analisis") || lowerInput.contains("analyze") -> handleAIAnalysis()
+                        lowerInput.contains("contract") || lowerInput.contains("kontrak") || lowerInput.contains("registry") -> handleContractInfo()
+                        lowerInput.contains("register") || lowerInput.contains("daftar") -> handleContractInfo()
+                        else -> handleChat(input)
                     }
                 } else {
                     when (command.action) {
@@ -424,7 +432,8 @@ Jawab dengan bahasa Indonesia yang ramah, ringkas, dan informatif.
 Gunakan emoji untuk membuat percakapan lebih hidup.
 Fokus pada topik crypto, blockchain, dan keuangan.
 Jika user memiliki wallet terhubung, gunakan data on-chain tersebut untuk memberikan advice yang relevan.
-Data yang kamu terima adalah data REAL dari blockchain, bukan simulasi.""")
+Data yang kamu terima adalah data REAL dari blockchain, bukan simulasi.
+VibeAgent memiliki smart contract registry di BNB Chain: ${ContractManager.CONTRACT_ADDRESS}""")
         messagesArray.put(systemMessage)
 
         val userMessage = JSONObject()
@@ -485,7 +494,12 @@ Data yang kamu terima adalah data REAL dari blockchain, bukan simulasi.""")
 🤖 ANALISIS AI
 • "analisis" - AI analisis portofolio + token Anda
 
-🔗 Network: ${walletManager.getNetworkName()} (Chain ID: ${walletManager.getChainId()})""")
+📋 SMART CONTRACT
+• "contract" - Info VibeAgent Registry contract
+• "daftar" - Cek status registrasi on-chain
+
+🔗 Network: ${walletManager.getNetworkName()} (Chain ID: ${walletManager.getChainId()})
+📋 Contract: ${ContractManager.CONTRACT_ADDRESS}""")
     }
 
     private suspend fun handleCreateWallet() {
@@ -638,6 +652,64 @@ Contoh: "Kirim 0.01 BNB ke 0x1234...abcd"""", MessageType.ERROR)
 🔗 TX Hash: $txHash""", MessageType.TRANSACTION)
         } catch (e: Exception) {
             addAiMessage("❌ ${e.message ?: "Transaksi gagal."}", MessageType.ERROR)
+        }
+    }
+
+    // ===== SMART CONTRACT INFO =====
+    private suspend fun handleContractInfo() {
+        val contractAddress = contractManager.getContractAddress()
+
+        addAiMessage("🔍 Membaca data dari VibeAgent Registry smart contract...")
+
+        try {
+            val totalUsers = withContext(Dispatchers.IO) {
+                contractManager.getTotalUsers()
+            }
+
+            val currentWallet = _wallet.value
+            var registrationStatus = ""
+            var profileInfo = ""
+
+            if (currentWallet != null) {
+                val isRegistered = withContext(Dispatchers.IO) {
+                    contractManager.isUserRegistered(currentWallet.address)
+                }
+
+                if (isRegistered) {
+                    val profile = withContext(Dispatchers.IO) {
+                        contractManager.getUserProfile(currentWallet.address)
+                    }
+                    registrationStatus = "✅ Status: TERDAFTAR"
+                    if (profile != null) {
+                        val date = java.text.SimpleDateFormat("dd MMM yyyy HH:mm", java.util.Locale.getDefault())
+                            .format(java.util.Date(profile.registeredAt * 1000))
+                        profileInfo = "\n👤 Nickname: ${profile.nickname}\n📅 Terdaftar: $date"
+                    }
+                } else {
+                    registrationStatus = "⚠️ Status: BELUM TERDAFTAR\n💡 Ketik \"daftar [nickname]\" untuk registrasi on-chain"
+                }
+            } else {
+                registrationStatus = "⚠️ Hubungkan wallet dulu untuk cek status registrasi"
+            }
+
+            addAiMessage("""📋 VibeAgent Registry (Smart Contract)
+
+📍 Contract: $contractAddress
+👥 Total Users: $totalUsers
+🔗 Network: ${walletManager.getNetworkName()}
+
+$registrationStatus$profileInfo
+
+🔗 Explorer: https://bscscan.com/address/$contractAddress""")
+        } catch (e: Exception) {
+            addAiMessage("""📋 VibeAgent Registry (Smart Contract)
+
+📍 Contract: $contractAddress
+🔗 Network: ${walletManager.getNetworkName()}
+
+⚠️ Gagal membaca data contract: ${e.message}
+
+🔗 Explorer: https://bscscan.com/address/$contractAddress""")
         }
     }
 

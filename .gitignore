@@ -42,6 +42,18 @@ Thumbs.db
 .vscode/
 
 # ========================
+# Smart Contracts (Hardhat)
+# ========================
+contracts/node_modules/
+contracts/cache/
+contracts/artifacts/
+
+# ========================
+# Claude Code
+# ========================
+.claude/
+
+# ========================
 # Logs
 # ========================
 *.log

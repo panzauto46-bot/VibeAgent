@@ -1,9 +1,11 @@
 <p align="center">
   <img src="https://img.shields.io/badge/BNB_Chain-F0B90B?style=for-the-badge&logo=binance&logoColor=white" />
+  <img src="https://img.shields.io/badge/Solidity-363636?style=for-the-badge&logo=solidity&logoColor=white" />
   <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" />
   <img src="https://img.shields.io/badge/Groq_AI-00C853?style=for-the-badge&logo=openai&logoColor=white" />
   <img src="https://img.shields.io/badge/Web3j-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white" />
   <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" />
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
 </p>
 
 <h1 align="center">
@@ -22,20 +24,23 @@
   <a href="#-key-features">Features</a> •
   <a href="#-the-problem">Problem</a> •
   <a href="#-the-solution">Solution</a> •
-  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-smart-contract">Smart Contract</a> •
+  <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
   <a href="#-user-flow">User Flow</a> •
   <a href="#%EF%B8%8F-architecture">Architecture</a> •
+  <a href="#-project-structure">Project Structure</a> •
   <a href="#-getting-started">Getting Started</a> •
   <a href="#-security">Security</a> •
-  <a href="#-roadmap">Roadmap</a>
+  <a href="#%EF%B8%8F-roadmap">Roadmap</a>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0-blue?style=flat-square" />
-  <img src="https://img.shields.io/badge/platform-Android-green?style=flat-square" />
-  <img src="https://img.shields.io/badge/network-BSC_Mainnet-F0B90B?style=flat-square" />
+  <img src="https://img.shields.io/badge/platform-Android_|_Web-green?style=flat-square" />
+  <img src="https://img.shields.io/badge/network-BSC_Mainnet_|_Testnet-F0B90B?style=flat-square" />
+  <img src="https://img.shields.io/badge/smart_contract-deployed-brightgreen?style=flat-square" />
   <img src="https://img.shields.io/badge/license-MIT-purple?style=flat-square" />
-  <img src="https://img.shields.io/badge/hackathon-2026-red?style=flat-square" />
+  <img src="https://img.shields.io/badge/hackathon-BNB_Chain_2026-red?style=flat-square" />
 </p>
 
 ---
@@ -56,7 +61,7 @@ Beginners are **intimidated** by wallet addresses, gas fees, confusing dashboard
 
 ## 💡 The Solution
 
-**VibeAgent** is a **Native Android Application** that replaces the traditional wallet UI with a **conversational AI interface**. Powered by **Groq (Llama 3.3-70B)**, it allows users to manage their assets on **BNB Smart Chain** simply by **talking or texting** — like chatting with a friend.
+**VibeAgent** is a **Native Android Application** with a **React Web companion** that replaces the traditional wallet UI with a **conversational AI interface**. Powered by **Groq (Llama 3.3-70B)**, it allows users to manage their assets on **BNB Smart Chain** simply by **talking or texting** — like chatting with a friend.
 
 ```
 👤 User: "Hey, how much BNB do I have?"
@@ -64,6 +69,9 @@ Beginners are **intimidated** by wallet addresses, gas fees, confusing dashboard
 
 👤 User: "Send 0.01 BNB to 0x742d...4Cc9"
 🤖 VibeAgent: "📤 Confirming: 0.01 BNB → 0x742d...4Cc9. Processing... ✅ Done! TX: 0xabc..."
+
+👤 User: "Check my contract registration"
+🤖 VibeAgent: "📋 VibeAgent Registry: You are registered! Nickname: CryptoKing, Total Users: 42"
 ```
 
 **No menus. No forms. No confusion. Just natural conversation.** 🎤
@@ -89,14 +97,14 @@ Beginners are **intimidated** by wallet addresses, gas fees, confusing dashboard
       <p>Your private keys <strong>NEVER leave your device</strong>. We use <strong>AES-256-GCM encryption</strong> via Android's <code>EncryptedSharedPreferences</code> backed by the <strong>Android Keystore</strong> to store credentials locally.</p>
     </td>
     <td width="50%">
-      <h3>🟢 BSC Mainnet Ready</h3>
-      <p>Fully integrated with <strong>BNB Chain Mainnet</strong> (Chain ID: 56). VibeAgent reads <strong>real-time native BNB balances</strong> AND scans for <strong>10+ popular BEP-20 tokens</strong> (USDT, USDC, BUSD, CAKE, WBNB, etc).</p>
+      <h3>📋 On-Chain Smart Contract</h3>
+      <p>VibeAgent has its own <strong>deployed smart contract</strong> on BNB Chain — the <strong>VibeAgentRegistry</strong>. Users can register on-chain, verify identity, and track community growth directly from the chat interface.</p>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <h3>📱 Native Android Performance</h3>
-      <p>Built with <strong>Kotlin</strong> and <strong>Web3j</strong>, ensuring maximum performance and direct hardware access for <strong>Google Voice Recognition</strong> with real-time partial results display.</p>
+      <h3>📱 Native Android + Web</h3>
+      <p>Built with <strong>Kotlin + Web3j</strong> for Android and <strong>React + Ethers.js</strong> for web, ensuring maximum performance across platforms with <strong>Google Voice Recognition</strong>.</p>
     </td>
     <td width="50%">
       <h3>🤖 AI Portfolio Analysis</h3>
@@ -109,11 +117,61 @@ Beginners are **intimidated** by wallet addresses, gas fees, confusing dashboard
       <p>Connect via <strong>Trust Wallet, MetaMask, Binance, OKX, Bitget</strong> — or create a brand new wallet with <strong>BIP39 mnemonic generation</strong>. Import existing wallets via <strong>seed phrase or private key</strong>.</p>
     </td>
     <td width="50%">
-      <h3>🔑 BIP39/BIP44 Standard</h3>
-      <p>Proper wallet derivation using <strong>BIP39 mnemonic → BIP44 HD path</strong> (<code>m/44'/60'/0'/0/0</code>). Fully compatible with Trust Wallet, MetaMask, and all major wallets.</p>
+      <h3>🟢 BSC Mainnet + Testnet Ready</h3>
+      <p>Fully integrated with <strong>BNB Chain Mainnet</strong> (Chain ID: 56) and <strong>Testnet</strong> (Chain ID: 97). Reads <strong>real-time BNB balances</strong> and scans <strong>10+ BEP-20 tokens</strong> (USDT, USDC, BUSD, CAKE, WBNB, etc).</p>
     </td>
   </tr>
 </table>
+
+---
+
+## 📋 Smart Contract
+
+VibeAgent has a deployed **on-chain smart contract** — `VibeAgentRegistry` — on BNB Smart Chain.
+
+### Contract Details
+
+| Field | Value |
+|-------|-------|
+| **Contract Name** | VibeAgentRegistry |
+| **Network** | BNB Smart Chain Testnet (Chain ID: 97) |
+| **Contract Address** | [`0x49Ee39851956df07E5d3B430dC91e5A00B7E6059`](https://testnet.bscscan.com/address/0x49Ee39851956df07E5d3B430dC91e5A00B7E6059) |
+| **Deployment TX** | [`0x38faa9e4bf753264409e351edb6f69caf1a0ad94a8176df2f59ba2f65116dd37`](https://testnet.bscscan.com/tx/0x38faa9e4bf753264409e351edb6f69caf1a0ad94a8176df2f59ba2f65116dd37) |
+| **Solidity Version** | ^0.8.19 |
+| **License** | MIT |
+
+### Contract Functions
+
+| Function | Type | Description |
+|----------|------|-------------|
+| `register(string nickname)` | Write | Register as a VibeAgent user on-chain |
+| `updateNickname(string nickname)` | Write | Update your display nickname |
+| `isRegistered(address)` | Read | Check if an address is registered |
+| `getProfile(address)` | Read | Get user profile (registered, timestamp, nickname) |
+| `totalUsers()` | Read | Total number of registered users |
+| `APP_NAME()` | Read | Returns "VibeAgent" |
+| `APP_VERSION()` | Read | Returns "1.0.0" |
+
+### How It Works in the App
+
+The Android app interacts with the smart contract through `ContractManager.kt`:
+
+```kotlin
+// Check if user is registered on-chain
+val isRegistered = contractManager.isUserRegistered(walletAddress)
+
+// Get total community size
+val totalUsers = contractManager.getTotalUsers()
+
+// Get user profile from blockchain
+val profile = contractManager.getUserProfile(walletAddress)
+```
+
+Users can interact with the contract via natural language:
+```
+👤 "Show contract info"    → Displays contract details + registration status
+👤 "Check my registration" → Queries on-chain profile
+```
 
 ---
 
@@ -152,9 +210,12 @@ Beginners are **intimidated** by wallet addresses, gas fees, confusing dashboard
 
 | Layer | Technology | Purpose |
 |-------|-----------|---------|
-| **Frontend** | Kotlin + Material Design 3 | Native Android UI with modern design language |
+| **Android Frontend** | Kotlin + Material Design 3 | Native Android UI with modern design language |
+| **Web Frontend** | React 19 + TypeScript + Vite | Responsive web chat interface |
 | **AI Brain** | Groq API (Llama 3.3-70B Versatile) | Ultra-fast NLP inference — converts human language to blockchain commands |
-| **Blockchain** | Web3j Library | Wallet creation (BIP39/BIP44), transaction signing, BSC RPC interaction |
+| **Smart Contract** | Solidity ^0.8.19 + Hardhat | On-chain user registry deployed on BNB Chain |
+| **Blockchain (Android)** | Web3j 4.9.8 | Wallet creation (BIP39/BIP44), transaction signing, BSC RPC interaction |
+| **Blockchain (Web)** | Ethers.js 6.13.1 | Web-based wallet operations and contract interaction |
 | **Voice** | Google Speech Recognition | Real-time speech-to-text with partial results |
 | **Security** | EncryptedSharedPreferences (AES-256-GCM) | Non-custodial encrypted storage via Android Keystore |
 | **Auth** | Firebase Authentication + Google Sign-In | Secure user authentication |
@@ -166,41 +227,42 @@ Beginners are **intimidated** by wallet addresses, gas fees, confusing dashboard
 ## 🏗️ Architecture
 
 ```
-┌───────────────────────────────────────────────────────────────┐
-│                     📱 VibeAgent Android App                   │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  ┌─────────────┐  ┌─────────────┐  ┌──────────────────────┐  │
-│  │  Splash      │  │  Auth        │  │  Main Activity       │  │
-│  │  Activity    │→ │  Activity    │→ │  (Chat Interface)    │  │
-│  │             │  │  (Firebase)  │  │                      │  │
-│  └─────────────┘  └─────────────┘  └──────────┬───────────┘  │
-│                                                │              │
-│                    ┌───────────────────────────┤              │
-│                    │                           │              │
-│  ┌─────────────────▼──────┐  ┌─────────────────▼──────────┐  │
-│  │   ChatViewModel        │  │  Bottom Sheets              │  │
-│  │   (MVVM Brain)         │  │  • ConnectWalletSheet       │  │
-│  │                        │  │  • WalletDetailsSheet       │  │
-│  │  • processMessage()    │  └────────────────────────────┘  │
-│  │  • analyzePortfolio()  │                                  │
-│  │  • connectWallet()     │                                  │
-│  └──┬────────┬────────┬───┘                                  │
-│     │        │        │                                      │
-│  ┌──▼──┐ ┌──▼──┐ ┌───▼────┐                                │
-│  │Groq │ │Web3j│ │Command │                                 │
-│  │ API │ │     │ │Parser  │                                 │
-│  │     │ │     │ │        │                                 │
-│  └──┬──┘ └──┬──┘ └────────┘                                 │
-│     │       │                                                │
-├─────▼───────▼────────────────────────────────────────────────┤
-│  ☁️ External Services                                        │
-│  ┌────────────────┐  ┌─────────────────────────────────────┐ │
-│  │ Groq Cloud      │  │ BNB Smart Chain (BSC Mainnet)       │ │
-│  │ Llama 3.3-70B   │  │ RPC: bsc-dataseed1.binance.org     │ │
-│  │ ~500ms latency  │  │ Chain ID: 56                        │ │
-│  └────────────────┘  └─────────────────────────────────────┘ │
-└───────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────┐
+│                     📱 VibeAgent Android App                      │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│  ┌─────────────┐  ┌─────────────┐  ┌──────────────────────────┐  │
+│  │  Splash      │  │  Auth        │  │  Main Activity           │  │
+│  │  Activity    │→ │  Activity    │→ │  (Chat Interface)        │  │
+│  │              │  │  (Firebase)  │  │                          │  │
+│  └─────────────┘  └─────────────┘  └────────────┬─────────────┘  │
+│                                                  │                │
+│                    ┌─────────────────────────────┤                │
+│                    │                             │                │
+│  ┌─────────────────▼───────┐  ┌──────────────────▼────────────┐  │
+│  │   ChatViewModel          │  │  Bottom Sheets                │  │
+│  │   (MVVM Brain)           │  │  • ConnectWalletSheet         │  │
+│  │                          │  │  • WalletDetailsSheet         │  │
+│  │  • processMessage()      │  └──────────────────────────────┘  │
+│  │  • analyzePortfolio()    │                                    │
+│  │  • handleContractInfo()  │                                    │
+│  │  • connectWallet()       │                                    │
+│  └──┬────────┬────────┬─────┘                                    │
+│     │        │        │                                          │
+│  ┌──▼──┐ ┌──▼───┐ ┌──▼──────────┐                               │
+│  │Groq │ │Web3j │ │Contract     │                               │
+│  │ API │ │      │ │Manager      │                               │
+│  │     │ │      │ │(Registry)   │                               │
+│  └──┬──┘ └──┬───┘ └──┬──────────┘                               │
+│     │       │        │                                           │
+├─────▼───────▼────────▼───────────────────────────────────────────┤
+│  ☁️ External Services                                             │
+│  ┌────────────────┐  ┌──────────────────┐  ┌──────────────────┐  │
+│  │ Groq Cloud      │  │ BNB Smart Chain   │  │ VibeAgent        │  │
+│  │ Llama 3.3-70B   │  │ BSC Mainnet:56    │  │ Registry         │  │
+│  │ ~500ms latency  │  │ BSC Testnet:97    │  │ (Smart Contract) │  │
+│  └────────────────┘  └──────────────────┘  └──────────────────┘  │
+└───────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -209,48 +271,78 @@ Beginners are **intimidated** by wallet addresses, gas fees, confusing dashboard
 
 ```
 VibeAgent/
-├── 📱 VibeAgent-Android/              # Native Android App
+│
+├── 📱 VibeAgent-Android/                    # Native Android Application
 │   ├── app/src/main/
 │   │   ├── java/com/vibeagent/app/
-│   │   │   ├── MainActivity.kt        # Chat + Voice Recognition
-│   │   │   ├── AuthActivity.kt        # Firebase Google Auth
-│   │   │   ├── SplashActivity.kt      # Animated Splash Screen
-│   │   │   ├── ConnectWalletBottomSheet.kt  # Multi-wallet connector
-│   │   │   ├── WalletBottomSheet.kt   # Wallet details view
+│   │   │   ├── MainActivity.kt              # Chat UI + Voice Recognition
+│   │   │   ├── AuthActivity.kt              # Firebase Google Sign-In
+│   │   │   ├── SplashActivity.kt            # Animated Splash Screen
+│   │   │   ├── ConnectWalletBottomSheet.kt  # Multi-wallet connector UI
+│   │   │   ├── WalletBottomSheet.kt         # Wallet details view
+│   │   │   │
 │   │   │   ├── adapter/
-│   │   │   │   └── ChatAdapter.kt     # RecyclerView chat adapter
+│   │   │   │   └── ChatAdapter.kt           # RecyclerView chat adapter
+│   │   │   │
 │   │   │   ├── model/
-│   │   │   │   ├── ChatMessage.kt     # Message data model
-│   │   │   │   └── WalletInfo.kt      # Wallet data model
+│   │   │   │   ├── ChatMessage.kt           # Message data model
+│   │   │   │   └── WalletInfo.kt            # Wallet data model
+│   │   │   │
 │   │   │   ├── util/
-│   │   │   │   ├── CommandParser.kt   # NLP command parser
-│   │   │   │   ├── WalletManager.kt   # Web3j wallet operations
-│   │   │   │   ├── SecureWalletStorage.kt  # AES-256 encrypted storage
-│   │   │   │   └── PrefsManager.kt    # Preferences helper
+│   │   │   │   ├── WalletManager.kt         # Web3j wallet operations (BIP39/BIP44)
+│   │   │   │   ├── ContractManager.kt       # Smart contract interaction (Registry)
+│   │   │   │   ├── CommandParser.kt         # NLP command parser
+│   │   │   │   ├── SecureWalletStorage.kt   # AES-256-GCM encrypted storage
+│   │   │   │   └── PrefsManager.kt          # SharedPreferences helper
+│   │   │   │
 │   │   │   └── viewmodel/
-│   │   │       └── ChatViewModel.kt   # MVVM ViewModel (Groq + Web3j)
+│   │   │       └── ChatViewModel.kt         # MVVM ViewModel (AI + Web3j + Contract)
+│   │   │
 │   │   └── res/
-│   │       ├── layout/                # XML layouts (Material Design 3)
-│   │       ├── drawable/              # Icons, backgrounds, animations
-│   │       └── values/                # Themes, colors, strings
-│   └── build.gradle.kts              # Dependencies & config
+│   │       ├── layout/                      # XML layouts (Material Design 3)
+│   │       ├── drawable/                    # Icons, backgrounds, animations
+│   │       └── values/                      # Themes, colors, strings
+│   │
+│   ├── build.gradle.kts                     # App dependencies & config
+│   └── README.md                            # Android-specific documentation
 │
-├── 🌐 src/                           # Web Frontend (React + TypeScript)
-│   ├── App.tsx                       # Main chat interface
+├── 🌐 src/                                  # Web Frontend (React + TypeScript)
+│   ├── App.tsx                              # Main chat interface component
+│   ├── main.tsx                             # React entry point
+│   ├── index.css                            # Global styles (Tailwind CSS)
+│   │
 │   ├── components/
-│   │   ├── ChatBubble.tsx            # Message bubble component
-│   │   ├── WalletPanel.tsx           # Wallet sidebar panel
-│   │   ├── QuickActions.tsx          # Quick action buttons
-│   │   └── TypingIndicator.tsx       # AI typing animation
+│   │   ├── ChatBubble.tsx                   # Message bubble component
+│   │   ├── WalletPanel.tsx                  # Wallet sidebar panel
+│   │   ├── QuickActions.tsx                 # Quick action buttons
+│   │   └── TypingIndicator.tsx              # AI typing animation
+│   │
 │   ├── hooks/
-│   │   └── useChat.ts                # Chat logic hook
+│   │   └── useChat.ts                       # Chat state & logic hook
+│   │
+│   ├── types/
+│   │   └── index.ts                         # TypeScript interfaces
+│   │
 │   └── utils/
-│       ├── commandParser.ts          # Command parser
-│       └── wallet.ts                 # Wallet utilities
+│       ├── commandParser.ts                 # Command parsing logic
+│       ├── wallet.ts                        # Ethers.js wallet utilities
+│       └── cn.ts                            # Class name utility
 │
-├── .gitignore
-├── package.json
-└── README.md                         # You are here! 📍
+├── 📜 contracts/                            # Smart Contracts (Solidity + Hardhat)
+│   ├── contracts/
+│   │   └── VibeAgentRegistry.sol            # On-chain user registry contract
+│   ├── scripts/
+│   │   └── deploy.js                        # Deployment script for BSC
+│   ├── hardhat.config.js                    # Hardhat network configuration
+│   └── package.json                         # Contract dependencies
+│
+├── .gitignore                               # Git ignore rules
+├── index.html                               # Web entry point
+├── package.json                             # Web dependencies
+├── tsconfig.json                            # TypeScript configuration
+├── vite.config.ts                           # Vite build configuration
+├── LICENSE                                  # MIT License
+└── README.md                                # This file 📍
 ```
 
 ---
@@ -266,6 +358,7 @@ VibeAgent follows the **non-custodial** security model. Your keys, your crypto.
 | **Seed Phrase Validation** | BIP39 wordlist validation + checksum verification |
 | **HD Wallet** | BIP44 derivation path `m/44'/60'/0'/0/0` |
 | **Data Isolation** | Private keys NEVER sent to any server (Groq, Firebase, or otherwise) |
+| **Smart Contract** | Immutable on-chain registry — data verified by blockchain consensus |
 | **Logout** | Complete data wipe from encrypted storage on logout |
 | **Network** | Direct RPC calls to BSC — no intermediary servers |
 
@@ -287,12 +380,14 @@ val encryptedPrefs = EncryptedSharedPreferences.create(
 ## 🏁 Getting Started
 
 ### Prerequisites
+
 - **Android Studio** Hedgehog (2023.1.1) or newer
 - **JDK 17**
 - **Android SDK 34**
+- **Node.js 16+** (for web frontend and smart contracts)
 - A physical Android device or emulator (API 24+)
 
-### Build & Run
+### Build & Run (Android)
 
 ```bash
 # 1. Clone the repository
@@ -301,43 +396,81 @@ cd VibeAgent
 
 # 2. Open VibeAgent-Android/ in Android Studio
 
-# 3. Sync Gradle & Build
+# 3. Create local.properties with your API keys
+echo "GROQ_API_KEY=your_groq_api_key" > VibeAgent-Android/local.properties
+
+# 4. Sync Gradle & Build
 cd VibeAgent-Android
 ./gradlew assembleDebug
 
-# 4. Install on device
+# 5. Install on device
 adb install app/build/outputs/apk/debug/app-debug.apk
 ```
 
-### Configuration
+### Build & Run (Web)
 
-Create `local.properties` in the `VibeAgent-Android/` directory:
-```properties
-GEMINI_API_KEY=your_gemini_api_key_here
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Start development server
+npm run dev
+
+# 3. Build for production (single-file HTML)
+npm run build
 ```
 
-> **Note:** The Groq API key for the AI brain is pre-configured in the app for hackathon demo purposes.
+### Deploy Smart Contract
+
+```bash
+# 1. Install contract dependencies
+cd contracts
+npm install
+
+# 2. Set deployer private key
+export DEPLOYER_PRIVATE_KEY="0xYOUR_PRIVATE_KEY"
+
+# 3. Deploy to BSC Testnet
+npm run deploy:testnet
+
+# 4. Deploy to BSC Mainnet
+npm run deploy:mainnet
+```
 
 ---
 
 ## 🗺️ Roadmap
 
-- [x] ✅ Conversational AI chat interface
-- [x] ✅ Voice input with Google Speech Recognition
-- [x] ✅ BIP39/BIP44 wallet generation
-- [x] ✅ Seed phrase import with validation
-- [x] ✅ BSC Mainnet integration
-- [x] ✅ BEP-20 token scanning (10+ tokens)
-- [x] ✅ AI portfolio analysis
-- [x] ✅ Non-custodial AES-256 encrypted storage
-- [x] ✅ Multi-wallet connection (Trust, MetaMask, Binance, OKX, Bitget)
-- [x] ✅ Firebase Authentication
-- [ ] 🔜 Swap tokens via PancakeSwap integration
-- [ ] 🔜 NFT viewing & management
-- [ ] 🔜 Multi-chain support (Ethereum, Polygon, Arbitrum)
-- [ ] 🔜 Transaction history with AI-powered insights
-- [ ] 🔜 DeFi yield farming recommendations
-- [ ] 🔜 Biometric authentication (Fingerprint/Face)
+### Phase 1 — Core (Completed ✅)
+
+- [x] Conversational AI chat interface with Groq (Llama 3.3-70B)
+- [x] Voice input with Google Speech Recognition
+- [x] BIP39/BIP44 wallet generation and seed phrase import
+- [x] BSC Mainnet + Testnet integration
+- [x] BEP-20 token scanning (10+ tokens: USDT, USDC, BUSD, CAKE, WBNB, etc.)
+- [x] AI-powered portfolio analysis with on-chain data
+- [x] Non-custodial AES-256-GCM encrypted key storage
+- [x] Multi-wallet connection (Trust, MetaMask, Binance, OKX, Bitget)
+- [x] Firebase Authentication with Google Sign-In
+- [x] React + TypeScript web companion app
+- [x] **Smart contract deployment** — VibeAgentRegistry on BNB Chain
+- [x] **On-chain user registration** — query and display via ContractManager
+
+### Phase 2 — DeFi Integration (In Progress 🔄)
+
+- [ ] Swap tokens via PancakeSwap integration
+- [ ] Transaction history with AI-powered insights
+- [ ] Gas fee estimation and optimization
+- [ ] Token price feeds and real-time charts
+
+### Phase 3 — Advanced Features (Planned 📋)
+
+- [ ] NFT viewing & management
+- [ ] Multi-chain support (Ethereum, Polygon, Arbitrum, opBNB)
+- [ ] DeFi yield farming recommendations
+- [ ] Biometric authentication (Fingerprint/Face)
+- [ ] Push notifications for price alerts and transaction confirmations
+- [ ] On-chain identity verification via VibeAgentRegistry
 
 ---
 
@@ -351,6 +484,7 @@ GEMINI_API_KEY=your_gemini_api_key_here
 | 🔇 No voice support | 🎤 Full voice recognition |
 | 📊 Raw data display | 🧠 AI-powered portfolio insights |
 | 🔐 Confusing security | 🛡️ Invisible AES-256 encryption |
+| ❌ No on-chain identity | 📋 Smart contract user registry |
 
 ---
 
