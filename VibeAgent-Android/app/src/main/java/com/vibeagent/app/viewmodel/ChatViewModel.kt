@@ -60,8 +60,8 @@ class ChatViewModel : ViewModel() {
 
     init {
         // Use BSC Mainnet by default (for real wallets)
+        // ContractManager always uses Testnet (contract deployed on Testnet)
         walletManager.setNetwork(true)
-        contractManager.setNetwork(true)
 
         val user = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
         val userName = user?.displayName ?: "Kawan"
@@ -696,20 +696,20 @@ Contoh: "Kirim 0.01 BNB ke 0x1234...abcd"""", MessageType.ERROR)
 
 📍 Contract: $contractAddress
 👥 Total Users: $totalUsers
-🔗 Network: ${walletManager.getNetworkName()}
+🔗 Network: BSC Testnet (Chain ID: 97)
 
 $registrationStatus$profileInfo
 
-🔗 Explorer: https://bscscan.com/address/$contractAddress""")
+🔗 Explorer: https://testnet.bscscan.com/address/$contractAddress""")
         } catch (e: Exception) {
             addAiMessage("""📋 VibeAgent Registry (Smart Contract)
 
 📍 Contract: $contractAddress
-🔗 Network: ${walletManager.getNetworkName()}
+🔗 Network: BSC Testnet (Chain ID: 97)
 
 ⚠️ Gagal membaca data contract: ${e.message}
 
-🔗 Explorer: https://bscscan.com/address/$contractAddress""")
+🔗 Explorer: https://testnet.bscscan.com/address/$contractAddress""")
         }
     }
 

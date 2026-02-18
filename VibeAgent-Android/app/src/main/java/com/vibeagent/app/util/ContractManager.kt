@@ -38,11 +38,8 @@ class ContractManager {
         const val FUNC_GET_PROFILE = "0xf08f4f64"         // getProfile(address)
     }
 
-    private var activeRpc = BSC_MAINNET_RPC
-
-    fun setNetwork(mainnet: Boolean) {
-        activeRpc = if (mainnet) BSC_MAINNET_RPC else BSC_TESTNET_RPC
-    }
+    // Contract is deployed on BSC Testnet — always use Testnet RPC for contract calls
+    private val activeRpc = BSC_TESTNET_RPC
 
     /**
      * Cek apakah address sudah terdaftar di VibeAgent Registry
